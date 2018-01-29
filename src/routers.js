@@ -12,7 +12,8 @@ const routes = [
   },
   {
     path: '/home',
-    component: Home
+    component: Home,
+    loadData: Home.getInitialData,
   },
   {
     path: '/profile',

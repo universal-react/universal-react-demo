@@ -4,7 +4,18 @@
     "react"
   ],
   "plugins": [
-    "transform-class-properties"
+    "transform-class-properties",
+    ["css-modules-transform", {
+      "extensions": [
+        ".css"
+      ],
+      "extractCss": {
+        "dir": "./dist/css/",
+        "relativeRoot": "./src/container",
+        "filename": "[name].css",
+        "generateScopedName": "[name]__[local]___[hash:base64:5]"
+      }
+    }]
   ],
   "sourceMaps": true
 }
