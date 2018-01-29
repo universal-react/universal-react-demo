@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 import request from 'xhr-request';
 
@@ -67,5 +68,11 @@ Home.getInitialData = function () {
   });
 }
 
-export default Home;
+const mapState2Props = (store) => {
+  return {
+    ...store.home
+  }
+}
+
+export default connect(mapState2Props)(Home);
  

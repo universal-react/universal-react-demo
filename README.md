@@ -515,4 +515,3 @@ const serve = http.createServer((req, res) => {
 
 如果使用redux的话，也大同小异。我们依然需要在组件上绑定获取数据的方法。是不过这次我们需要把请求放到action里面来做。
 
-
