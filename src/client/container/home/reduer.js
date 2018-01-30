@@ -15,7 +15,7 @@ export default (state = initialState, action) =>  {
     case TOOGLE_BLANK_VISIBLE:
       return {
         ...state,
-        blankVisible: payload,
+        blankVisible: action.payload,
       };
       break;
     default:

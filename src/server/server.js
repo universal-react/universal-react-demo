@@ -9,8 +9,8 @@ import { renderRoutes, matchRoutes } from 'react-router-config';
 import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router-dom';
 
-import routers from '../src/routers';
-import initialStore from '../src/store';
+import routers from '../client/routers';
+import initialStore from '../client/store';
 
 import { tmpl } from './utils/tmpl';
 

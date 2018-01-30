@@ -6,7 +6,7 @@ export const TOOGLE_BLANK_VISIBLE = 'TOOGLE_BLANK_VISIBLE';
 export const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
 
 export const toogleBlankVisible = () => (dispatch, getState) => {
-  const blankVisible = getState().home;
+  const { blankVisible } = getState().home;
 
   dispatch({
     type: TOOGLE_BLANK_VISIBLE,

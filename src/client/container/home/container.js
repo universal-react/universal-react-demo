@@ -9,7 +9,7 @@ import { getUserList, toogleBlankVisible } from './action';
 import styles from './home.css';
 
 const Home = (props) =>  {
-  const { list, blankVisible } = props;
+  const { list, blankVisible, dispatch } = props;
   const userListDOM = list.map((v, i) => <p key={i}>name: {v.name}</p>);
   return (
     <div className={styles.red}>
@@ -17,7 +17,7 @@ const Home = (props) =>  {
         <div>
         {userListDOM}
       </div>
-      <button onClick={() => toogleBlankVisible()}>toggle blank</button>
+      <button onClick={() => dispatch(toogleBlankVisible())}>toggle blank</button>
       {blankVisible ?
         <div className={styles.blank}>blank</div>
         : null}

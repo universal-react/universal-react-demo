@@ -8,9 +8,10 @@ function tmpl(options = { title: '', header: '', content: '', initialState: {} }
         <title>${options.title}</title>
         ${options.header}
         <script>window.initialState = ${JSON.stringify(options.initialState)}</script>  
-      </head>
-      <body>
-        ${options.content}
+        </head>
+        <body>
+        <div id="app">${options.content}</div>
+        <script src="/statics/bundle.js"></script>
       </body>
     </html>`;
 }

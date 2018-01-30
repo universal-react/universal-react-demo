@@ -3,9 +3,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const config = {
-  entry: path.resolve(__dirname, '../src/render.js'),
+  entry: path.resolve(__dirname, '../src/client/render.js'),
   output: {
-    path: path.resolve(__dirname, '../statics'),
+    path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -28,10 +28,7 @@ const config = {
       inject: true,
     })
   ],
-  devServer: {
-    port: 8388,
-  },
-  devtool: 'eval-source-map'
+  devtool: 'source-map'
 };
 
 module.exports = config;
