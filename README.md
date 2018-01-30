@@ -116,7 +116,7 @@ module.exports = config;
 }
 ```
 
-然后我们再实现一个最简单的ssr。我们可以使用 `react-dom/server` 提供的 `renderToString` 方法，将我们使用 *es6* 语法编写的react组件翻译为字符串。
+然后我们再实现一个最简单的ssr。我们可以使用 `react-dom/server` 提供的 `renderToString` 方法，将我们使用 *es6* 语法编写的react组件翻译为字符串。
 
 ```js
 import http from 'http';
@@ -143,7 +143,7 @@ export default serve;
 
 这就是一个服务端渲染的实现，但这还远远不够。我们还需要实现对路由和数据存储，数据请求的功能。
 
-在此之前，我们还可以做一个小测试，测试一下到底是服务端渲染快还是客户端渲染快。我们可以使用 `window.performance.now()` 或者 `console.time()` 来做测试。为了统一标准，我们这里使用 `console.time`。我们在 *Hello* 组件里面渲染10000个div 来进行实验。
+在此之前，我们还可以做一个小测试，测试一下到底是服务端渲染快还是客户端渲染快。我们可以使用 `window.performance.now()` 或者 `console.time()` 来做测试。为了统一标准，我们这里使用 `console.time`。我们在 *Hello* 组件里面渲染10000个div 来进行实验。
 
 ```js
 
@@ -172,7 +172,7 @@ export class Hello extends Component {
 }·
 ```
 
-同样，我们把服务端代码也改一下：
+同样，我们把服务端代码也改一下：
 
 ```js
 // server.js
@@ -186,7 +186,7 @@ const serve = http.createServer((req, res) => {
 ...
 ```
 
-分别使用 webpack-dev-server 和 `node server/server.js` 来运行我们的react代码，可以发现, 浏览器渲染大约需要 `mount: 303.55322265625ms`，而服务端掉用 `renderToString` 只需要 `mount: 172.4598450064659ms`，可见服务端渲染确实快了不少。
+分别使用 webpack-dev-server 和 `node server/server.js` 来运行我们的react代码，可以发现, 浏览器渲染大约需要 `mount: 303.55322265625ms`，而服务端掉用 `renderToString` 只需要 `mount: 172.4598450064659ms`，可见服务端渲染确实快了不少。
 
 ### Step 3 - Add react router
 
