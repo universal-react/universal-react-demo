@@ -1,4 +1,4 @@
-function tmpl(options = { title: '', header: '', content: '' }) {
+function tmpl(options = { title: '', header: '', content: '', initialState: {} }) {
   return `<!DOCTYPE html>
       <html lang="en">
       <head>
@@ -7,6 +7,7 @@ function tmpl(options = { title: '', header: '', content: '' }) {
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>${options.title}</title>
         ${options.header}
+        <script>window.initialState = ${JSON.stringify(options.initialState)}</script>  
       </head>
       <body>
         ${options.content}

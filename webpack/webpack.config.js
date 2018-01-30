@@ -17,10 +17,6 @@ const config = {
       test: /jsx?/,
       use: {
         loader: 'babel-loader',
-        options: {
-          presets: ['es2015', 'react'],
-          plugins: ['transform-runtime', 'transform-class-properties']
-        }
       },
       exclude: /node_modules/,
     }]

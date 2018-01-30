@@ -1,14 +1,22 @@
-import { UPDATE_USER_LIST } from './action';
+import { UPDATE_USER_LIST, TOOGLE_BLANK_VISIBLE } from './action';
 const initialState = {
   list: [],
+  blankVisible: true,
 };
 
 export default (state = initialState, action) =>  {
   switch (action.type) {
     case UPDATE_USER_LIST:
-      return Object.assign(state, {
-        list: payload,
-      });
+      return {
+        ...state,
+        list: action.payload,
+      };
+      break;
+    case TOOGLE_BLANK_VISIBLE:
+      return {
+        ...state,
+        blankVisible: payload,
+      };
       break;
     default:
       return state;

@@ -513,5 +513,205 @@ const serve = http.createServer((req, res) => {
 
 ## Use redux
 
-如果使用redux的话，也大同小异。我们依然需要在组件上绑定获取数据的方法。是不过这次我们需要把请求放到action里面来做。
+如果使用redux的话，也大同小异。我们需要对组件和server端的代码都进行重构。
 
+### 组件
+
+我们首先需要将组件的state放到redux的store中，并使用 `react-redux` 提供的 `connect` 方法来实现store和component的正确关联。然后将 `getInitialData` 方法封装为一个action。用以在服务端渲染时调用。
+
+为了简洁起见，删除了测试render速度的代码。同时将 `<Home />` 修改为stateless component。
+
+**PS：** 实际上我们一直是为server端调用 `renderToString` 而做努力。只是为了服务端正确的渲染出首屏的 **DOM**。这个过程中并不包含 client端redux的初始化和事件绑定。这里也简单写了一个例子，一个toggle 下面div显示或不显示的按钮控制。实际上它在server端渲染的时候是并没有绑定上事件的。
+
+```js
+...
+
+const Home = (props) =>  {
+  const { list, blankVisible } = props;
+  const userListDOM = list.map((v, i) => <p key={i}>name: {v.name}</p>);
+  return (
+    <div className={styles.red}>
+      Hello world
+        <div>
+        {userListDOM}
+      </div>
+      /** onClick 并不起作用 **/
+      <button onClick={() => toogleBlankVisible()}>toggle blank</button> 
+      {blankVisible ?
+        <div className={styles.blank}>blank</div>
+        : null}
+    </div>
+  );
+};
+
+Home.getCssFile = 'home';
+
+/**
+ * 此方法在server端调用 传入的 dispatch 为 store.dispatch。同时返回Promise方便服务端做initalData
+ * ${dispatch} function store.dispatch 
+ * return Promise<any>
+ */
+Home.getInitialData = function (dispatch) {
+  return dispatch(getUserList());
+}
+
+const mapState2Props = store => {
+  return {...store.home};
+}
+
+const mapDispatch2Props = dispatch => {
+  return {
+    getUserList,
+    toogleBlankVisible,
+  }
+}
+
+export default connect(mapState2Props)(Home);
+```
+
+```js
+// action.js
+import request from 'xhr-request';
+import THROW_ERR from '../../components/error/action';
+
+export const TOOGLE_BLANK_VISIBLE = 'TOOGLE_BLANK_VISIBLE';
+
+export const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
+
+export const toogleBlankVisible = () => (dispatch, getState) => {
+  const blankVisible = getState().home;
+
+  dispatch({
+    type: TOOGLE_BLANK_VISIBLE,
+    payload: !blankVisible
+  });
+}
+
+/**
+ * return Promise
+ * https://stackoverflow.com/questions/36189448/want-to-do-dispatch-then
+ */
+export const getUserList = () => (dispath, getState) => {
+  return new Promise((resolve, reject) => {
+    request('http://localhost:8388/user/list', {
+      json: true,
+      method: 'post',
+    }, function (err, data) {
+      if (err) {
+        dispath({
+          type: THROW_ERR,
+          payload: err,
+        });
+        reject(err);
+      } else {
+        dispath({
+          type: UPDATE_USER_LIST,
+          payload: data.list,
+        });
+        resolve(data);
+      }
+    });
+  })
+}
+```
+
+```js
+// src/home/reducer.js
+import { UPDATE_USER_LIST, TOOGLE_BLANK_VISIBLE } from './action';
+const initialState = {
+  list: [],
+  blankVisible: true,
+};
+
+export default (state = initialState, action) =>  {
+  switch (action.type) {
+    case UPDATE_USER_LIST:
+      return {
+        ...state,
+        list: action.payload,
+      };
+      break;
+    case TOOGLE_BLANK_VISIBLE:
+      return {
+        ...state,
+        blankVisible: payload,
+      };
+      break;
+    default:
+      return state;
+      break;
+  }
+};
+```
+
+然后，我们在服务端，在匹配到正确的component后，需要获得所有组件的 `getInitialData` 方法并放到一个queue里面，所有请求的完成也意味着调用了所有组件的 `getInitialData` 并触发了正确的action，同时也更新了store里面的数据。这个时候我们再使用 renderToString 方法就可以渲染出正确的DOM了。
+
+```js
+import http from 'http';
+import path from 'path';
+import React from 'react';
+import fs from 'fs';
+import st from 'st';
+import { renderToString } from 'react-dom/server';
+import { renderRoutes, matchRoutes } from 'react-router-config';
+import { Provider } from 'react-redux';
+import { StaticRouter, matchPath } from 'react-router-dom';
+
+import routers from '../src/routers';
+import initialStore from '../src/store';
+
+import { tmpl } from './utils/tmpl';
+
+import { userList } from './api/user';
+
+const ROOTPATH = path.resolve('./');
+const PORT = 8388;
+
+const store = initialStore();
+
+const staticsService = st({ url: '/statics', path: path.join(ROOTPATH, 'dist') })
+
+const serve = http.createServer((req, res) => {
+  const stHandled = staticsService(req, res);
+  if (stHandled) return;
+  if (req.url === '/user/list') {
+    userList(req,res);
+  } else {
+    const { dispatch } = store;
+    const branch = matchRoutes(routers, req.url); // 找到正确的组件（可能包含父组件）
+    const styleList = []; // 找到所有的样式文件
+    const promiseList = branch.map(({ route }) => { // create promise list
+      const { component } = route;
+      if (component.getCssFile) {
+        styleList.push(`<link rel="stylesheet" href="/statics/css/${component.getCssFile}.css" >`);
+      }
+      return route.component.getInitialData ? route.component.getInitialData(dispatch) : Promise.resolve();
+    });
+
+    Promise.all(promiseList).then(v => { // 等待初始化数据完成
+      console.log(store.getState()); // 此时已经是更新完成的 store
+      const content = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={{}}>
+            {renderRoutes(routers)}
+          </StaticRouter>
+        </Provider>
+      );
+      res.end(
+        tmpl({
+          title: '',
+          header: styleList.join('\n'),
+          content,
+          initialState: store.getState(), // 用来给client初始化store树
+        })
+      )
+    });
+  }
+});
+
+serve.listen(PORT, () => {
+  console.log(`server start on port ${PORT}`);
+});
+
+export default serve;
+```

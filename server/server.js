@@ -5,9 +5,12 @@ import React from 'react';
 import fs from 'fs';
 import st from 'st';
 import { renderToString } from 'react-dom/server';
-import { renderRoutes } from 'react-router-config';
+import { renderRoutes, matchRoutes } from 'react-router-config';
+import { Provider } from 'react-redux';
 import { StaticRouter, matchPath } from 'react-router-dom';
+
 import routers from '../src/routers';
+import initialStore from '../src/store';
 
 import { tmpl } from './utils/tmpl';
 
@@ -15,6 +18,8 @@ import { userList } from './api/user';
 
 const ROOTPATH = path.resolve('./');
 const PORT = 8388;
+
+const store = initialStore();
 
 const staticsService = st({ url: '/statics', path: path.join(ROOTPATH, 'dist') })
 
@@ -24,47 +29,35 @@ const serve = http.createServer((req, res) => {
   if (req.url === '/user/list') {
     userList(req,res);
   } else {
-    const currentRouter = routers.find(c => c.path === req.url);
-    if (currentRouter) {
-      let cssContext = '';
-      const currentComponent = currentRouter.component;
-      // get data
-      const promises = [];
-      routers.some(route => {
-        const match = matchPath(req.url, route)
-        if (match)
-          promises.push(route.loadData(match))
-        return match
-      });
-
-      if (promises.length) {
-        Promise.all(promises).then(data => {
-          console.log(data);
-          render(data[0]);
-        });
-      } else {
-        render();
+    const { dispatch } = store;
+    const branch = matchRoutes(routers, req.url);
+    const styleList = [];
+    const promiseList = branch.map(({ route }) => {
+      const { component } = route;
+      if (component.getCssFile) {
+        styleList.push(`<link rel="stylesheet" href="/statics/css/${component.getCssFile}.css" >`);
       }
-
-      function render(data = {}) {
-        // render component
-        const content = renderToString(
-          <StaticRouter location={req.url} context={data}>
+      return route.component.getInitialData ? route.component.getInitialData(dispatch) : Promise.resolve();
+    });
+    console.log(styleList);
+    Promise.all(promiseList).then(v => {
+      const content = renderToString(
+        <Provider store={store}>
+          <StaticRouter location={req.url} context={{}}>
             {renderRoutes(routers)}
           </StaticRouter>
-        );
-  
-        // send
-        res.end(tmpl({
-          header: currentComponent.getCssFile ? `<link rel="stylesheet" href="/statics/css/${currentComponent.getCssFile}.css" >` : '',
+        </Provider>
+      );
+      console.log(content);
+      res.end(
+        tmpl({
+          title: '',
+          header: styleList.join('\n'),
           content,
-        }));
-      }
-
-    } else {
-      res.statusCode = 404;
-      res.end('404');
-    }
+          initialState: store.getState(),
+        })
+      )
+    });
   }
 });
 

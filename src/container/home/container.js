@@ -1,76 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-
+import { bindActionCreators } from 'redux';
 import request from 'xhr-request';
+
+import { getUserList, toogleBlankVisible } from './action';
 
 // component.js
 import styles from './home.css';
 
-export class Home extends Component {
-  t = 0;
-  constructor(props) {
-    super(props);
-    this.state = {
-      list: [],
-    }
-  }
-
-  componentWillMount() {
-    var global,window;
-    console.log(styles)
-    if (window) {
-      this.t =  window.performance.now();
-    }
-    const p = this.props;
-    console.log(p);
-    if (this.props.staticContext) {
-      this.setState({
-        list: this.props.staticContext.list,
-      });
-    }
-  }
-
-  componentDidMount(){
-    if (window) {
-      this.t = window.performance.now() - this.t;
-    }
-    console.log(this.t);
-  }
-
-  render() {
-    const userListDOM = this.state.list.map((v,i) => <p key={i}>name: {v.name}</p>);
-    return (
-      <div className={styles.red}>
-        Hello world
+const Home = (props) =>  {
+  const { list, blankVisible } = props;
+  const userListDOM = list.map((v, i) => <p key={i}>name: {v.name}</p>);
+  return (
+    <div className={styles.red}>
+      Hello world
         <div>
-          {userListDOM}
-        </div>
-        {Object.keys(Array.from({ length: 10000 })).map((i,index) => <div key={index}>{index}</div>)}
+        {userListDOM}
       </div>
-    )
-  }
-}
+      <button onClick={() => toogleBlankVisible()}>toggle blank</button>
+      {blankVisible ?
+        <div className={styles.blank}>blank</div>
+        : null}
+    </div>
+  );
+};
 
 Home.getCssFile = 'home';
 
-Home.getInitialData = function () {
-  return new Promise((resolve, reject) => {
-    request('http://localhost:8388/user/list', {
-      json: true,
-      method: 'post',
-    }, function (err, data) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    })
-  });
+Home.getInitialData = function (dispatch) {
+  return dispatch(getUserList());
 }
 
-const mapState2Props = (store) => {
+const mapState2Props = store => {
+  return {...store.home};
+}
+
+const mapDispatch2Props = dispatch => {
   return {
-    ...store.home
+    getUserList,
+    toogleBlankVisible,
   }
 }
 

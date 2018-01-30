@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server/server.js",
+    "build": "rm -rf dist/ && babel src/ -d dist/ && npm run bundle",
     "wds": "webpack-dev-server --config webpack/webpack.config.js --port 8388 --inline --history-api-fallback",
     "bundle": "webpack --config webpack/webpack.config.js"
   },
@@ -30,6 +31,7 @@
     "react-router-config": "^1.0.0-beta.4",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.2.0",
     "st": "^1.2.2",
     "webpack": "^3.10.0",
     "xhr-request": "^1.0.1"
@@ -39,6 +41,7 @@
     "babel-plugin-css-modules-transform": "^1.4.0",
     "babel-plugin-react-css-modules": "^3.3.3",
     "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "html-webpack-plugin": "^2.30.1",
     "webpack-dev-middleware": "^2.0.4",
