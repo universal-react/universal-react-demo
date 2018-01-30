@@ -2,7 +2,15 @@
 
 一步一步来实现 react 的服务端渲染。
 
-## 预期结果
+## How to use
+
+> $ yarn && npm run build
+
+Then use *Visual studio code* to debug isomorphic react.
+
+![debugtool](./readme-img/debug.png)
+
+## Expectation
 
 实现react在服务端的渲染，同时支持额外拓展，包括 react-router，redux，css-module，react-addons-*。
 
@@ -715,3 +723,20 @@ serve.listen(PORT, () => {
 
 export default serve;
 ```
+
+重启服务器，可以看到server端已经正确渲染了我们的组件。
+
+# Step 6 - Event & Redux init
+
+在这一步我们需要初始化react的事件绑定。我们只需要在页面中引入webpack打包好的js文件就可以了。
+
+
+# Future
+
+- [x] Include redux
+- [x] Include css module
+- [ ] Visual Studio Code use nodemon
+- [ ] Production useful
+- [ ] require.ensure
+- [ ] Code Splitting
+- [ ] Optmize webpack config
