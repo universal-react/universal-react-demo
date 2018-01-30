@@ -93,7 +93,7 @@ module.exports = config;
 
 > webpack-dev-server --config webpack/webpack.config.js --port 8388 --inline
 
-# Step 2 - Simpe server side render
+## Step 2 - Simpe server side render
 
 服务端渲染，实际上就是让 react 在服务端将我们使用es6语法写的组件渲染为字符串的一个过程。在这个过程中，我们首先需要实现在服务端使用 es6 的语法。
 
@@ -188,7 +188,7 @@ const serve = http.createServer((req, res) => {
 
 分别使用 webpack-dev-server 和 `node server/server.js` 来运行我们的react代码，可以发现, 浏览器渲染大约需要 `mount: 303.55322265625ms`，而服务端掉用 `renderToString` 只需要 `mount: 172.4598450064659ms`，可见服务端渲染确实快了不少。
 
-### Step 3 - Add react router
+## Step 3 - Add react router
 
 我们现在在我们的代码中加入 *react-router*。我们使用最新的 v4 版本。由于 v4 和 v2 版本差距非常大，这次顺便学习一下新的api。
 
@@ -256,7 +256,7 @@ serve.listen(PORT, () => {
 export default serve;
 ```
 
-# Step 4 - Add css
+## Step 4 - Add css
 
 这一步，我们要处理一下css，实际上css我们也可以当作是普通文本处理。我们可以把所有样式都写在一个文件里。 然后在加载网页的时候插入到 `<head>` 标签里面。
 但是我们正常来说并不是全部都写在一个文件里面的，可能每个组件都有自己的css，然后写一个css入口文件，通过`@import` 来引入；也会选择使用 webpack 提供的 `css-loader` 将所有css文件自动打包到一个文件里面；也可能使用 css-module，postcss，scss这样的工具或者技术。所以处理css也是react ssr的一个难点。
@@ -367,11 +367,11 @@ export default serve;
 
 至此，我们就实现了服务端使用css-modules的功能，`babel-plugins-css-modules-transform` 还可以和预处理器或者postcss结合，这个看文档就可以搞定了。
 
-# Step 5 - InitialData?
+## Step 5 - InitialData?
 
 我们通常在组件的 `componentDidMount` 中进行ajax请求来初始化组件的state，但是在服务端是不会执行componentDidMount方法的，我们就需要通过其他方式来初始化组件的state。
 
-## Unused Redux
+### Unused Redux
 
 如果不使用redux，通常的做法和获取组件的样式一样，在组件上绑定一个静态方法，然后在server render的过程中进行调用。 如果结合 *react-router* v4的话，目前并没有一个最优的方法。官方的的例子是在声明路由的时候附加一个loadData方法，然后在服务端match的时候进行调用，[例子](https://reacttraining.com/react-router/web/guides/server-rendering/data-loading)。这个方法和组件上声明静态方法的思路如出一辙。我们这里就来实现它所说的这种方法。
  
@@ -519,7 +519,7 @@ const serve = http.createServer((req, res) => {
 
 开始debug，可以看到我们已经可以从server端获得数据并在组件内使用了。
 
-## Use redux
+### Use redux
 
 如果使用redux的话，也大同小异。我们需要对组件和server端的代码都进行重构。
 
@@ -726,7 +726,7 @@ export default serve;
 
 重启服务器，可以看到server端已经正确渲染了我们的组件。
 
-# Step 6 - Event & Redux init
+## Step 6 - Event & Redux init
 
 在这一步我们需要初始化react的事件绑定。我们只需要在页面中引入webpack打包好的js文件就可以了。
 
