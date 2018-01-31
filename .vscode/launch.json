@@ -8,6 +8,20 @@
       "program": "${workspaceRoot}/src/server/server.js",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/babel-node",
       "cwd": "${workspaceRoot}"
-    }
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "nodemon & babel",
+      "runtimeExecutable": "nodemon",
+      "program": "${workspaceFolder}/server/app.js",
+      "args": [
+        "--exec",
+        "babel-node"
+      ],
+      "restart": true,
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
   ]
 }
