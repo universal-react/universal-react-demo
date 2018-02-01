@@ -13,7 +13,7 @@ const Home = (props) =>  {
   const userListDOM = list.map((v, i) => <p key={i}>name: {v.name}</p>);
   return (
     <div className={styles.red}>
-      Hello world
+      Hello noopikkknssmmm
         <div>
         {userListDOM}
       </div>
@@ -30,6 +30,7 @@ Home.getCssFile = 'home';
 Home.getInitialData = function (dispatch) {
   return dispatch(getUserList());
 }
+
 
 const mapState2Props = store => {
   return {...store.home};

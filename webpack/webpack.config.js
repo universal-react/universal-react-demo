@@ -1,9 +1,11 @@
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 
 const config = {
-  entry: path.resolve(__dirname, '../src/client/render.js'),
+  entry: [
+    'webpack-hot-middleware/client',
+    path.resolve(__dirname, '../src/client/render.js'),
+  ],
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js',
@@ -22,13 +24,11 @@ const config = {
     }]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      filename: 'index.html',
-      template: path.join(__dirname, './tmpl.html'),
-      inject: true,
-    })
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
   ],
-  devtool: 'source-map'
+  devtool: '#eval-source-map'
 };
 
 module.exports = config;

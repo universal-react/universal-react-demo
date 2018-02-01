@@ -2,14 +2,15 @@ import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from './reducer';
 
-const initialStore = (preloadedState) => {
+const initialStore = (preloadedState, compose) => {
+  let store;
   if (preloadedState) {
-    return createStore(rootReducer, preloadedState, applyMiddleware(thunk));
+    store = createStore(rootReducer, preloadedState, compose);
   } else {
-    return createStore(rootReducer, applyMiddleware(thunk));
+    store = createStore(rootReducer, applyMiddleware(thunk));
   }
+
+  return store;
 };
 
 export default initialStore;
-
-

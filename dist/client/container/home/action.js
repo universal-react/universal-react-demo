@@ -39,8 +39,7 @@ var getUserList = exports.getUserList = function getUserList() {
   return function (dispath, getState) {
     return new Promise(function (resolve, reject) {
       (0, _xhrRequest2.default)('http://localhost:8388/user/list', {
-        json: true,
-        method: 'post'
+        json: true
       }, function (err, data) {
         if (err) {
           dispath({

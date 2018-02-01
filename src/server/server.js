@@ -1,66 +1,71 @@
 
+import chokidar from 'chokidar';
 import http from 'http';
 import path from 'path';
-import React from 'react';
-import fs from 'fs';
-import st from 'st';
-import { renderToString } from 'react-dom/server';
-import { renderRoutes, matchRoutes } from 'react-router-config';
-import { Provider } from 'react-redux';
-import { StaticRouter, matchPath } from 'react-router-dom';
+import express from 'express';
+import webpack from 'webpack';
+import favicon from 'serve-favicon';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
+import webpackConfig from '../../webpack/webpack.config';
 
-import routers from '../client/routers';
-import initialStore from '../client/store';
+import bodyParser from 'body-parser';
 
 import { tmpl } from './utils/tmpl';
 
-import { userList } from './api/user';
+import userRouter from './routes/user';
 
-const ROOTPATH = path.resolve('./');
+import render from './render';
+
+const DISTDIR = path.join(__dirname, '../../dist');
 const PORT = 8388;
 
-const store = initialStore();
+const app = express();
+const compile = webpack(webpackConfig);
 
-const staticsService = st({ url: '/statics', path: path.join(ROOTPATH, 'dist') })
+app.use(favicon(path.resolve(__dirname, '../../dist/images/favicon.ico')));
 
-const serve = http.createServer((req, res) => {
-  const stHandled = staticsService(req, res);
-  if (stHandled) return;
-  if (req.url === '/user/list') {
-    userList(req,res);
-  } else {
-    const { dispatch } = store;
-    const branch = matchRoutes(routers, req.url);
-    const styleList = [];
-    const promiseList = branch.map(({ route }) => {
-      const { component } = route;
-      if (component.getCssFile) {
-        styleList.push(`<link rel="stylesheet" href="/statics/css/${component.getCssFile}.css" >`);
-      }
-      return route.component.getInitialData ? route.component.getInitialData(dispatch) : Promise.resolve();
+// use webpack
+app.use(webpackDevMiddleware(compile, {
+  publicPath: webpackConfig.output.publicPath
+}));
+app.use(webpackHotMiddleware(compile));
+
+// /dist or /statics
+app.use('/statics', express.static(DISTDIR));
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/user', userRouter);
+
+app.get('*', render);
+
+// Do "hot-reloading" of express stuff on the server
+// Throw away cached modules and re-require next time
+// Ensure there's no important state in there!
+const watcher = chokidar.watch('');
+
+watcher.on('ready', function () {
+  watcher.on('all', function () {
+    console.log("Clearing /server/ module cache from server");
+    Object.keys(require.cache).forEach(function (id) {
+      if (/[\/\\]src[\/\\]/.test(id)) delete require.cache[id];
     });
-    console.log(styleList);
-    Promise.all(promiseList).then(v => {
-      const content = renderToString(
-        <Provider store={store}>
-          <StaticRouter location={req.url} context={{}}>
-            {renderRoutes(routers)}
-          </StaticRouter>
-        </Provider>
-      );
-      console.log(content);
-      res.end(
-        tmpl({
-          title: '',
-          header: styleList.join('\n'),
-          content,
-          initialState: store.getState(),
-        })
-      )
-    });
-  }
+  });
 });
 
+compile.plugin('done', function () {
+  console.log("Clearing /client/ module cache from server");
+  Object.keys(require.cache).forEach(function (id) {
+    if (/client/.test(id)) {
+      console.log(id)
+      delete require.cache[id];
+    }
+  });
+});
+
+const serve = http.createServer(app);
 serve.listen(PORT, () => {
   console.log(`server start on port ${PORT}`);
 });

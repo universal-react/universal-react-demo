@@ -7,7 +7,6 @@
       "name": "Launch via Babel",
       "program": "${workspaceRoot}/src/server/server.js",
       "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/babel-node",
-      "cwd": "${workspaceRoot}"
     },
     {
       "type": "node",

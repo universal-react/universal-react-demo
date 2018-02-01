@@ -11,7 +11,7 @@ function tmpl(options = { title: '', header: '', content: '', initialState: {} }
         </head>
         <body>
         <div id="app">${options.content}</div>
-        <script src="/statics/bundle.js"></script>
+        <script src="/bundle.js"></script>
       </body>
     </html>`;
 }

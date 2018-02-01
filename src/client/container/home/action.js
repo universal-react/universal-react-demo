@@ -22,7 +22,6 @@ export const getUserList = () => (dispath, getState) => {
   return new Promise((resolve, reject) => {
     request('http://localhost:8388/user/list', {
       json: true,
-      method: 'post',
     }, function (err, data) {
       if (err) {
         dispath({

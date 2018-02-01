@@ -5,9 +5,9 @@ export class Root extends Component {
   render() {
     return (
       <div>
-        <Link to="home">home</Link>
+        <Link to="/home">hsssome</Link>
         <br />
-        <Link to="profile">profile</Link>
+        <Link to="/profile">profile</Link>
       </div>
     )
   }
