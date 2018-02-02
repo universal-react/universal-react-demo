@@ -5,17 +5,17 @@ import path from 'path';
 import express from 'express';
 import webpack from 'webpack';
 import favicon from 'serve-favicon';
+import cssModulesRequireHook from 'css-modules-require-hook';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack/webpack.config';
 
+// 此配置需在启动文件中配置，因为不允许在入口文件的以来中引入css
+cssModulesRequireHook({ generateScopedName: '[name]-[local]-[hash:base64:5]' });
+
 import bodyParser from 'body-parser';
 
-import { tmpl } from './utils/tmpl';
-
 import userRouter from './routes/user';
-
-import render from './render';
 
 const DISTDIR = path.join(__dirname, '../../dist');
 const PORT = 8388;
@@ -39,7 +39,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/user', userRouter);
 
-app.get('*', render);
+app.get('*', (req, res, next) => {
+  require('./utils/render').default(req,res,next);
+});
 
 // Do "hot-reloading" of express stuff on the server
 // Throw away cached modules and re-require next time

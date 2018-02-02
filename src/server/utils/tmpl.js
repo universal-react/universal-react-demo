@@ -1,4 +1,4 @@
-function tmpl(options = { title: '', header: '', content: '', initialState: {} }) {
+function tmpl(options = { title: '', header: '', content: '', initialState: {}, initialCss: {} }) {
   return `<!DOCTYPE html>
       <html lang="en">
       <head>
@@ -6,8 +6,10 @@ function tmpl(options = { title: '', header: '', content: '', initialState: {} }
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>${options.title}</title>
-        ${options.header}
-        <script>window.initialState = ${JSON.stringify(options.initialState)}</script>  
+        <script>
+          window.initialState = ${JSON.stringify(options.initialState)};
+          window.initialCss = ${JSON.stringify(options.initialCss)};
+        </script>
         </head>
         <body>
         <div id="app">${options.content}</div>

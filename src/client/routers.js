@@ -1,7 +1,11 @@
 // client/routes.js
+import React from 'react';
+import asyncComponent from './utils/async-component';
 
 import AppRoot from './container/root';
-import Home from './container/home';
+// import Home from './container/home';
+const AsyncHome = asyncComponent(() => System.import('./container/home').then(module => module.default));
+
 import Profile from './container/profile';
 
 const routes = [
@@ -12,8 +16,7 @@ const routes = [
   },
   {
     path: '/home',
-    component: Home,
-    loadData: Home.getInitialData,
+    component: AsyncHome,
   },
   {
     path: '/profile',

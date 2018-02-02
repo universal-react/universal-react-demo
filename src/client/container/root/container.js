@@ -5,7 +5,7 @@ export class Root extends Component {
   render() {
     return (
       <div>
-        <Link to="/home">hsssome</Link>
+        <Link to="/home">hsssomlle</Link>
         <br />
         <Link to="/profile">profile</Link>
       </div>

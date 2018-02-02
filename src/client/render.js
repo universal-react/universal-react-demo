@@ -1,14 +1,31 @@
-import ReactDOM from 'react-dom';
+/* eslint-env browser */
+
+import App from './app';
+import configureStore from './store';
 import React from 'react';
-import Main from './app';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
 
-import initialStore from './store';
+const store = configureStore(window.initialState);
 
-ReactDOM.render(Main, document.getElementById('app'));
+window.dev = { store };
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+);
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
+  module.hot.accept('./app.js', function () {
+    // 使用更新过的 library 模块执行某些操作...
     const NewApp = require('./app').default;
-    ReactDOM.render(NewApp, document.getElementById('app'));
-  });
+    ReactDOM.hydrate(
+      <Provider store={store}>
+        <NewApp />
+      </Provider>,
+      document.getElementById('app')
+    );
+  })
 }

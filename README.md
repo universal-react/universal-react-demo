@@ -2,6 +2,28 @@
 
 一步一步来实现 react 的服务端渲染。
 
+## What's the best isomorphism-react scaffold in my mind?
+
+- 畅快调试 - 我希望在任何地方，任何环境下调试
+- 按需加载 - 实现代码分片
+- 版本控制 - 项目的bundle和发布能产生正确的版本号
+- 可配置 - 可选用的编程方式(sass, less, js, jsx, ts, tsx, coffee) - same like yeoman prompt
+- 快速发布 - 优化打包速度 - webpack optmize
+- 更少的学习成本 - 它只是和我做的项目略有不同，或者有完整的教程来指导我使用 - ...
+- 更新，更稳定 - 我不希望使用较老的模块，也不希望使用更新的模块 - ...
+- 可测试的
+
+## 前期调研
+
+- https://github.com/glenjamin/ultimate-hot-reloading-example/ 是一个比较好的例子，但未包含 *react-router v4* 以及 code splitting
+- https://github.com/justinjung04/universal-boilerplate 对于css的处理方式是在开发环境下的server端渲染 ignore 了 css
+- https://github.com/faceyspacey/react-universal-component 做的比较完善，集成度较高，但代码侵入太强，需要使用一系列compile工具
+
+- react router v4  版本的设计较 v3 而言有非常重大的修改，中间调研 [React Router v4 几乎误我一生](https://zhuanlan.zhihu.com/p/27433116), [React Router v4 之代码分割：从放弃到入门](http://www.wukai.me/2017/09/25/react-router-v4-code-splitting/), 以及看了 [v4 onEnter and onChange hooks](https://github.com/ReactTraining/react-router/issues/3854) issue，后面又看了 [React Router v4 with Michael Jackson and Ryan Florence - Modern Web](https://www.youtube.com/watch?v=Vur2dAFZ4GE) 这个视频学习了一下设计理念，总结就是对 react router团队印象很差却没什么办法。。
+而且看v4的文档，[Code-splitting + server rendering](https://reacttraining.com/react-router/web/guides/code-splitting/code-splitting-server-rendering) 这部分，竟然说试了好几次失败了就不试了？！orz... 我看github上好多人从v3升级v4都要搞吐了，可见坑真是大的一批..
+
+https://medium.com/airbnb-engineering/server-rendering-code-splitting-and-lazy-loading-with-react-router-v4-bfe596a6af70
+
 ## How to use
 
 > $ yarn && npm run build

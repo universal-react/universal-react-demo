@@ -5,21 +5,24 @@ import { Provider } from 'react-redux';
 import { renderRoutes, matchRoutes } from 'react-router-config';
 import { StaticRouter, matchPath } from 'react-router-dom';
 // user config
-import routers from '../client/routers';
-import initialStore from '../client/store';
+import routers from '../../client/routers';
+import initialStore from '../../client/store';
 // template function return string
-import { tmpl } from './utils/tmpl';
+import { tmpl } from './tmpl';
 
 
 function render(req, res, next) {
   const store = initialStore();
   const { dispatch } = store;
   const branch = matchRoutes(routers, req.url);
-  const styleList = [];
+  const styleObj = {};
   const promiseList = branch.map(({ route }) => {
     const { component } = route;
     if (component.getCssFile) {
-      styleList.push(`<link rel="stylesheet" href="/statics/css/${component.getCssFile}.css" >`);
+      /**
+       * 用于客户端维护style
+       */
+      styleObj[component.getCssFile] = `<link rel="stylesheet" href="/statics/css/${component.getCssFile}.css" >`;
     }
     return route.component.getInitialData ? route.component.getInitialData(dispatch) : Promise.resolve();
   });
@@ -33,13 +36,20 @@ function render(req, res, next) {
           </StaticRouter>
         </Provider>
       );
-      
+      const styleList = [];
+      for (const styleId in styleObj) {
+        if (styleObj.hasOwnProperty(styleId)) {
+          styleList.push(styleObj[styleId]);
+        }
+      }
+
       res.end(
         tmpl({
           title: '',
           header: styleList.join('\n'),
           content,
           initialState: store.getState(),
+          initialCss: styleObj
         })
       );
     })

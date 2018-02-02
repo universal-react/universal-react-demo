@@ -1,9 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
-
+const qs = require('querystring');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const config = {
   entry: [
-    'webpack-hot-middleware/client',
+    // 'webpack-hot-middleware/client',
     path.resolve(__dirname, '../src/client/render.js'),
   ],
   output: {
@@ -21,12 +22,23 @@ const config = {
         loader: 'babel-loader',
       },
       exclude: /node_modules/,
+    }, 
+    {
+      test: /\.css$/,
+      loader: 'style-loader!css-loader?' + qs.stringify({
+        modules: true,
+        importLoaders: 1,
+        localIdentName: '[name]-[local]-[hash:base64:5]'
+      })
     }]
   },
   plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, './tmpl.html'),
+    })
+    // new webpack.optimize.OccurrenceOrderPlugin(),
+    // new webpack.NoEmitOnErrorsPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: '#eval-source-map'
 };
