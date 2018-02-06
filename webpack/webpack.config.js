@@ -2,15 +2,19 @@ const webpack = require('webpack');
 const path = require('path');
 const qs = require('querystring');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
+const FlushCSSChunksWebpackPlugin = require('flush-css-chunks-webpack-plugin');
+
 const config = {
   entry: [
-    // 'webpack-hot-middleware/client',
+    'webpack-hot-middleware/client',
     path.resolve(__dirname, '../src/client/render.js'),
   ],
   output: {
     path: path.resolve(__dirname, '../dist'),
     filename: 'bundle.js',
     publicPath: '/',
+    chunkFilename: '[name]-[chunkhash].js'
   },
   resolve: {
     extensions: ['.js','.jsx']
@@ -33,12 +37,17 @@ const config = {
     }]
   },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, './tmpl.html'),
+    // new HtmlWebpackPlugin({
+    //   template: path.join(__dirname, './tmpl.html'),
+    // })
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new ManifestPlugin(),
+    new FlushCSSChunksWebpackPlugin({
+      entryOnly: true, // defaults to false,
+      entries: ['common'] // defaults to null
     })
-    // new webpack.optimize.OccurrenceOrderPlugin(),
-    // new webpack.NoEmitOnErrorsPlugin(),
-    // new webpack.HotModuleReplacementPlugin(),
   ],
   devtool: '#eval-source-map'
 };
