@@ -1,12 +1,22 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import { renderRoutes } from 'react-router-config';
-import routers from './routers';
+import { AsyncHome, AsyncProfile } from './routers';
+import { Route, Link } from 'react-router-dom'
 
-const Main = () => (
-  <BrowserRouter>
-    {renderRoutes(routers)}
-  </BrowserRouter>
-);
+export default class App extends React.Component {
+  render() {
+    return (
+      <div>
+        <div>
+          <ul>
+            <li><Link to={'/'}>Home</Link></li>
+            <li><Link to={'/profile'}>profile</Link></li>
+          </ul>
+          <Route exact path={'/profile'} component={AsyncProfile} />
+          <Route exact path={'/'} component={AsyncHome} />
+        </div>
+      </div>
+    )
+  }
+}
 
-export default Main;
+// export default Main;

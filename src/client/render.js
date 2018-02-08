@@ -1,18 +1,18 @@
 /* eslint-env browser */
-
-import App from './app';
-import configureStore from './store';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom'
+import configureStore from './store';
+import App from './app';
 
 const store = configureStore(window.initialState);
 
-window.dev = { store };
-
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('app')
 );

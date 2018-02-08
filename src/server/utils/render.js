@@ -7,10 +7,11 @@ import flushChunks from 'webpack-flush-chunks'
 import { renderRoutes, matchRoutes } from 'react-router-config';
 import { StaticRouter } from 'react-router-dom';
 // user config
-import routers from '../../client/routers';
+// import routers from '../../client/routers';
 import initialStore from '../../client/store';
 // template function return string
 import { tmpl } from './tmpl';
+import App from '../../client/app';
 
 function render(clientStats) {
   const chunkNames = flushChunkNames();
@@ -19,23 +20,23 @@ function render(clientStats) {
   return function (req, res, next) {
     const store = initialStore();
     const { dispatch } = store;
-    const branch = matchRoutes(routers, req.url);
-    const styleObj = {};
-    const promiseList = branch.map(({ route }) => {
-      const { component } = route;
-      return route.component.getInitialData ? route.component.getInitialData(dispatch) : Promise.resolve();
-    });
+    // const branch = matchRoutes(routers, req.url);
+    // const styleObj = {};
+    // const promiseList = branch.map(({ route }) => {
+    //   const { component } = route;
+    //   return route.component.getInitialData ? route.component.getInitialData(dispatch) : Promise.resolve();
+    // });
   
-    Promise.all(promiseList)
-      .then(v => {
+    // Promise.all(promiseList)
+    //   .then(v => {
         const content = renderToString(
           <Provider store={store}>
             <StaticRouter location={req.url} context={{}}>
-              {renderRoutes(routers)}
+              <App />
             </StaticRouter>
           </Provider>
         );
-        console.log(styles.toString())
+        console.log(content)
         res.send(
           `<!doctype html>
       <html>
@@ -59,11 +60,11 @@ function render(clientStats) {
         //     initialCss: styleObj
         //   })
         // );
-      })
-      .catch(err => {
-        console.log(err);
-        res.end("didn\'t match any route. Check your url");
-      });
+      // })
+      // .catch(err => {
+      //   console.log(err);
+      //   res.end("didn\'t match any route. Check your url");
+      // });
   }
 }
 

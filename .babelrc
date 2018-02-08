@@ -5,10 +5,12 @@
     "react"
   ],
   "plugins": [
+    ["universal-import", {
+      "babelServer": true
+    }],
     "transform-runtime",
     "transform-decorators-legacy",
-    "babel-plugin-transform-class-properties",
-    "dual-import"
+    "babel-plugin-transform-class-properties"
   ],
   "sourceMaps": true
 }
