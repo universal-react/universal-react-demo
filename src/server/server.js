@@ -19,11 +19,11 @@ import userRouter from './routes/user';
 
 const DISTDIR = path.join(__dirname, '../../dist');
 const PORT = 8388;
-
+let clientStats = null;
 const app = express();
 const compile = webpack(webpackConfig);
 
-app.use(favicon(path.resolve(__dirname, '../../dist/images/favicon.ico')));
+// app.use(favicon(path.resolve(__dirname, '../../dist/images/favicon.ico')));
 
 // use webpack
 app.use(webpackDevMiddleware(compile, {
@@ -40,7 +40,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/user', userRouter);
 
 app.get('*', (req, res, next) => {
-  require('./utils/render').default(req,res,next);
+  if (!clientStats) {
+    res.send('please wait webpack done...');
+    return;
+  }
+  require('./utils/render').default(clientStats)(req, res, next);
 });
 
 // Do "hot-reloading" of express stuff on the server
@@ -57,11 +61,11 @@ watcher.on('ready', function () {
   });
 });
 
-compile.plugin('done', function () {
+compile.plugin('done', stats => {
+  clientStats = stats.toJson();
   console.log("Clearing /client/ module cache from server");
   Object.keys(require.cache).forEach(function (id) {
     if (/client/.test(id)) {
-      console.log(id)
       delete require.cache[id];
     }
   });

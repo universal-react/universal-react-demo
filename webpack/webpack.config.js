@@ -3,7 +3,9 @@ const path = require('path');
 const qs = require('querystring');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const FlushCSSChunksWebpackPlugin = require('flush-css-chunks-webpack-plugin');
+const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
+const WebpackModulesManifestPlugin = require('webpack-modules-manifest-plugin')
 
 const config = {
   entry: [
@@ -11,10 +13,10 @@ const config = {
     path.resolve(__dirname, '../src/client/render.js'),
   ],
   output: {
-    path: path.resolve(__dirname, '../dist'),
-    filename: 'bundle.js',
-    publicPath: '/',
-    chunkFilename: '[name]-[chunkhash].js'
+    path: path.resolve(__dirname, '../dist/statics'),
+    filename: '[name].js',
+    publicPath: '/statics/',
+    chunkFilename: '[name].js'
   },
   resolve: {
     extensions: ['.js','.jsx']
@@ -29,10 +31,16 @@ const config = {
     }, 
     {
       test: /\.css$/,
-      loader: 'style-loader!css-loader?' + qs.stringify({
-        modules: true,
-        importLoaders: 1,
-        localIdentName: '[name]-[local]-[hash:base64:5]'
+      use: ExtractCssChunks.extract({
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]-[local]-[hash:base64:5]'
+            }
+          }
+        ]
       })
     }]
   },
@@ -40,14 +48,23 @@ const config = {
     // new HtmlWebpackPlugin({
     //   template: path.join(__dirname, './tmpl.html'),
     // })
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
+    new WriteFilePlugin(),
+    new ExtractCssChunks(),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
+      filename: '[name].js',
+      minChunks: Infinity
+    }),
+    new WebpackModulesManifestPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
+    new webpack.optimize.OccurrenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development')
+      }
+    }),
     new ManifestPlugin(),
-    new FlushCSSChunksWebpackPlugin({
-      entryOnly: true, // defaults to false,
-      entries: ['common'] // defaults to null
-    })
   ],
   devtool: '#eval-source-map'
 };

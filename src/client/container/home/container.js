@@ -30,7 +30,7 @@ class Home extends Component {
 
     return (
       <div className={styles.red}>
-        Hello itc
+        Hello issstc
       <div>
           {userListDOM}
         </div>

@@ -1,12 +1,19 @@
 // client/routes.js
 import React from 'react';
-import asyncComponent from './utils/async-component';
-
+import universal from 'react-universal-component'
 import AppRoot from './container/root';
-// import Home from './container/home';
-const AsyncHome = asyncComponent(() => System.import('./container/home' /* webpackChunkName:"home" */).then(module => module.default));
 
-import Profile from './container/profile';
+const AsyncHome = universal(() => import('./container/home'), {
+  resolve: () => require.resolveWeak('./container/home'),
+  chunkName: 'container/home',
+  minDelay: 500,
+});
+
+const AsyncProfile = universal(() => import('./container/profile'), {
+  resolve: () => require.resolveWeak('./container/profile'),
+  chunkName: 'container/profile',
+  minDelay: 500,
+});
 
 const routes = [
   {
@@ -20,7 +27,7 @@ const routes = [
   },
   {
     path: '/profile',
-    component: Profile
+    component: AsyncProfile
   }
 ];
 
