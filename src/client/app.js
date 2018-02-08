@@ -1,6 +1,19 @@
 import React from 'react';
-import { AsyncHome, AsyncProfile } from './routers';
+import universal from 'react-universal-component'
+
 import { Route, Link } from 'react-router-dom'
+
+export const AsyncHome = universal(() => import('./container/home'), {
+  resolve: () => require.resolveWeak('./container/home'),
+  chunkName: 'container/home',
+  minDelay: 500,
+});
+
+export const AsyncProfile = universal(() => import('./container/profile'), {
+  resolve: () => require.resolveWeak('./container/profile'),
+  chunkName: 'container/profile',
+  minDelay: 500,
+});
 
 export default class App extends React.Component {
   render() {

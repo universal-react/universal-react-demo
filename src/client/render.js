@@ -21,7 +21,7 @@ if (module.hot) {
   module.hot.accept('./app.js', function () {
     // 使用更新过的 library 模块执行某些操作...
     const NewApp = require('./app').default;
-    ReactDOM.hydrate(
+    ReactDOM.render(
       <Provider store={store}>
         <NewApp />
       </Provider>,

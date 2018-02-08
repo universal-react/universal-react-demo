@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import request from 'xhr-request';
 
-import entryDecorator, { testD } from '../../utils/entry-decorator';
 import { getUserList, toogleBlankVisible } from './action';
 
 // component.js
@@ -13,7 +12,6 @@ export function getInitialData(dispatch) {
   return dispatch(getUserList());
 }
 
-@entryDecorator('home', getInitialData)
 class Home extends Component {
   constructor(props) {
     super(props);
@@ -21,7 +19,6 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('didmount')
-    // this.props.dispatch(getUserList());
   }
 
   render() {
@@ -30,7 +27,7 @@ class Home extends Component {
 
     return (
       <div className={styles.red}>
-        Hello issstc
+      <span>Hello</span>
       <div>
           {userListDOM}
         </div>
