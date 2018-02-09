@@ -1,11 +1,10 @@
 const webpack = require('webpack');
 const path = require('path');
-const qs = require('querystring');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const WriteFilePlugin = require('write-file-webpack-plugin') // here so you can see what chunks are built
-const ExtractCssChunks = require('extract-css-chunks-webpack-plugin')
-const WebpackModulesManifestPlugin = require('webpack-modules-manifest-plugin')
+const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const WebpackModulesManifestPlugin = require('webpack-modules-manifest-plugin');
+const WebpackStatsPlugin = require('./webpackStatsPlugin');
 
 const config = {
   entry: [
@@ -59,9 +58,6 @@ const config = {
     }]
   },
   plugins: [
-    // new HtmlWebpackPlugin({
-    //   template: path.join(__dirname, './tmpl.html'),
-    // })
     new WriteFilePlugin(),
     new ExtractCssChunks(),
     new webpack.optimize.CommonsChunkPlugin({
@@ -79,6 +75,7 @@ const config = {
       }
     }),
     new ManifestPlugin(),
+    new WebpackStatsPlugin(),
   ],
   devtool: '#eval-source-map'
 };

@@ -14,16 +14,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "nodemon & babel",
-      "runtimeExecutable": "nodemon",
-      "program": "${workspaceFolder}/server/app.js",
-      "args": [
-        "--exec",
-        "babel-node"
-      ],
-      "restart": true,
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "name": "Launch production",
+      "program": "${workspaceFolder}/dist/server/server.js",
+      "env": {
+        "NODE_ENV": "production",
+      }
     },
   ]
 }

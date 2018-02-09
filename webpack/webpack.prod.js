@@ -1,26 +1,17 @@
 const webpack = require('webpack');
 const path = require('path');
-const qs = require('querystring');
-const ManifestPlugin = require('webpack-manifest-plugin');
+const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const webpackStatsPlugin = require('./webpackStatsPlugin');
 
 const config = {
-  entry: {
-    app: path.resolve(__dirname, '../src/client/render.js'),
-    vendor1: [
-      'react',
-      'react-dom',
-      'redux'
-    ],
-    vendor2: [
-      'react-router',
-      'react-router-dom'
-    ]
-  },
+  entry: [
+    path.resolve(__dirname, '../src/client/render.js'),
+  ],
   output: {
-    path: path.resolve(__dirname, '../dist/server/statics'),
-    filename: 'bundle.js',
-    publicPath: '/',
-    chunkFilename: '[name]-[chunkhash].js'
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].js',
+    path: path.resolve(__dirname, '../dist/statics'),
+    publicPath: '/statics/',
   },
   resolve: {
     extensions: ['.js', '.jsx']
@@ -30,33 +21,59 @@ const config = {
       test: /jsx?/,
       use: {
         loader: 'babel-loader',
+        options: {
+          presets: [
+            "stage-0",
+            "es2015",
+            "react"
+          ],
+          plugins: [
+            "transform-runtime",
+            "transform-decorators-legacy",
+            "babel-plugin-transform-class-properties",
+            "universal-import"
+          ],
+          babelrc: false
+        }
       },
       exclude: /node_modules/,
     },
     {
       test: /\.css$/,
-      loader: 'style-loader!css-loader?' + qs.stringify({
-        modules: true,
-        importLoaders: 1,
-        localIdentName: '[name]-[local]-[hash:base64:5]'
+      use: ExtractCssChunks.extract({
+        use: [
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]-[local]-[hash:base64:5]'
+            }
+          }
+        ]
       })
     }]
   },
   plugins: [
-    new ManifestPlugin(),
+    new webpack.optimize.UglifyJsPlugin(),
+    new ExtractCssChunks(),
     new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor1',
-      filename: 'vendor1.js'
+      names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
+      filename: '[name].[chunkhash].js',
+      minChunks: Infinity
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'vendor2',
-      filename: 'vendor2.js'
-    }),
+    /**
+     * you don't need those plugin in production enviromment
+     new WriteFilePlugin(),
+     new WebpackModulesManifestPlugin(),
+     */
     new webpack.DefinePlugin({
-      'process.env': 'production'
-    })
+      'process.env': {
+        NODE_ENV: JSON.stringify('production')
+      }
+    }),
+    new webpackStatsPlugin(),
   ],
-  devtool: '#eval-source-map'
+  devtool: 'source-map',
 };
 
 module.exports = config;
