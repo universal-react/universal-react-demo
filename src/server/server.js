@@ -9,29 +9,31 @@ import cssModulesRequireHook from 'css-modules-require-hook';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackConfig from '../../webpack/webpack.config';
+import bodyParser from 'body-parser';
+
+import userRouter from './routes/user'; // server api
 
 // 此配置需在启动文件中配置，因为不允许在入口文件的以来中引入css
 cssModulesRequireHook({ generateScopedName: '[name]-[local]-[hash:base64:5]' });
 
-import bodyParser from 'body-parser';
-
-import userRouter from './routes/user';
-
 const DISTDIR = path.join(__dirname, '../../dist');
 const PORT = 8388;
-let clientStats = null;
+const DEV = process.env.NODE_ENV === 'development';
+
+let clientStats = null; // https://doc.webpack-china.org/api/stats/#src/components/Sidebar/Sidebar.jsx
 const app = express();
 const compile = webpack(webpackConfig);
 
-// app.use(favicon(path.resolve(__dirname, '../../dist/images/favicon.ico')));
+app.use(favicon(path.join(__dirname, '../../favicon.ico')));
 
-// use webpack
-app.use(webpackDevMiddleware(compile, {
-  publicPath: webpackConfig.output.publicPath
-}));
-app.use(webpackHotMiddleware(compile));
+if (DEV) {
+  // use webpack in dev enviroment
+  app.use(webpackDevMiddleware(compile, {
+    publicPath: webpackConfig.output.publicPath
+  }));
+  app.use(webpackHotMiddleware(compile));
+}
 
-// /dist or /statics
 app.use('/statics', express.static(DISTDIR));
 
 app.use(bodyParser.json());

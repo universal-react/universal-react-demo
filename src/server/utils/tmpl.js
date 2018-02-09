@@ -1,21 +1,23 @@
-function tmpl(options = { title: '', header: '', content: '', initialState: {}, initialCss: {} }) {
+function tmpl(options = { title: '', styles: '', content: '', initialStore: {}, cssHash: '', scripts: '' }) {
+  const { title, styles, content, initialStore, cssHash, scripts } = options;
   return `<!DOCTYPE html>
       <html lang="en">
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>${options.title}</title>
+        <title>${title}</title>
+        ${styles}
         <script>
-          window.initialState = ${JSON.stringify(options.initialState)};
-          window.initialCss = ${JSON.stringify(options.initialCss)};
+          window.initialState = ${JSON.stringify(initialStore)};
         </script>
         </head>
         <body>
-        <div id="app">${options.content}</div>
-        <script src="/bundle.js"></script>
+        <div id="app">${content}</div>
+        ${scripts}
+        ${cssHash}
       </body>
     </html>`;
 }
 
-export { tmpl };
+export default tmpl;

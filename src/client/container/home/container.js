@@ -19,6 +19,7 @@ class Home extends Component {
 
   componentDidMount() {
     console.log('didmount')
+    getInitialData(this.props.dispatch);
   }
 
   render() {
