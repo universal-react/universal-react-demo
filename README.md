@@ -30,7 +30,7 @@ https://medium.com/airbnb-engineering/server-rendering-code-splitting-and-lazy-l
 
 Then use *Visual studio code* to debug isomorphic react.
 
-![debugtool](./readme-img/debug.png)
+![debugtool](./docs/images/debug.png)
 
 ## Expectation
 

@@ -18,7 +18,7 @@ export const toogleBlankVisible = () => (dispatch, getState) => {
  * return Promise
  * https://stackoverflow.com/questions/36189448/want-to-do-dispatch-then
  */
-export const getUserList = () => (dispath, getState) => {
+export const getUserList = () => dispath => {
   return new Promise((resolve, reject) => {
     request('http://localhost:8388/user/list', {
       json: true,

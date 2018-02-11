@@ -4,8 +4,8 @@ const userRouter = express.Router({
   caseSensitive: true,
 });
 
-userRouter.get('/list', (req, res, next) => {
-  res.json({ list: [{ name: 'bob' }, { name: 'John' }] }).end();
+userRouter.get('/list', (req, res) => {
+  res.json({ list: [{ name: 'bob' }, { name: 'kkk' }] }).end();
 });
 
-export default userRouter;
+module.exports = userRouter;

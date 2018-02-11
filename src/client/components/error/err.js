@@ -13,7 +13,6 @@ export default (state = initialState, action) =>  {
         ...state,
         ...action.payload,
       }
-      break;
     default:
       break;
   }
