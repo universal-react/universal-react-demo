@@ -11,15 +11,12 @@ export default (state = initialState, action) =>  {
         ...state,
         list: action.payload,
       };
-      break;
     case TOOGLE_BLANK_VISIBLE:
       return {
         ...state,
         blankVisible: action.payload,
       };
-      break;
     default:
       return state;
-      break;
   }
 };

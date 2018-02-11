@@ -1,7 +1,8 @@
 const webpack = require('webpack');
 const path = require('path');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-const webpackStatsPlugin = require('./webpackStatsPlugin');
+const webpackStatsPlugin = require('./webpackGenStatsPlugin');
+const babelOptions = require('./babel_options');
 
 const config = {
   entry: [
@@ -21,20 +22,7 @@ const config = {
       test: /jsx?/,
       use: {
         loader: 'babel-loader',
-        options: {
-          presets: [
-            "stage-0",
-            "es2015",
-            "react"
-          ],
-          plugins: [
-            "transform-runtime",
-            "transform-decorators-legacy",
-            "babel-plugin-transform-class-properties",
-            "universal-import"
-          ],
-          babelrc: false
-        }
+        options: babelOptions
       },
       exclude: /node_modules/,
     },
@@ -54,7 +42,10 @@ const config = {
     }]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      comments: false,
+      sourceMap: true,
+    }),
     new ExtractCssChunks(),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
@@ -62,7 +53,7 @@ const config = {
       minChunks: Infinity
     }),
     /**
-     * you don't need those plugin in production enviromment
+     * you don't need these plugin in production enviromment
      new WriteFilePlugin(),
      new WebpackModulesManifestPlugin(),
      */

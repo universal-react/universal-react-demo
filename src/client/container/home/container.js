@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import request from 'xhr-request';
 
 import { getUserList, toogleBlankVisible } from './action';
 
-// component.js
 import styles from './home.css';
 
 export function getInitialData(dispatch) {
@@ -18,7 +16,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('didmount')
     getInitialData(this.props.dispatch);
   }
 
@@ -41,19 +38,17 @@ class Home extends Component {
   }
 }
 
-Home.getCssFile = 'home';
 Home.title = 'home page';
 Home.getInitialData = getInitialData;
 
 const mapState2Props = store => {
-  return {...store.home};
+  return { ...store.home };
 }
 
-const mapDispatch2Props = dispatch => {
-  return {
-    getUserList,
-    toogleBlankVisible,
-  }
+Home.propTypes = {
+  list: PropTypes.array,
+  blankVisible: PropTypes.bool,
+  dispatch: PropTypes.func
 }
 
 export default connect(mapState2Props)(Home);

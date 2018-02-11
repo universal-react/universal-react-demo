@@ -7,7 +7,7 @@ import App from './app';
 
 const store = configureStore(window.initialState);
 
-ReactDOM.render(
+ReactDOM.hydrate(
   <Provider store={store}>
     <App />
   </Provider>,

@@ -3,8 +3,8 @@ const path = require('path');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-const WebpackModulesManifestPlugin = require('webpack-modules-manifest-plugin');
-const WebpackStatsPlugin = require('./webpackStatsPlugin');
+const WebpackGenStatsPlugin = require('./webpackGenStatsPlugin');
+const babelOptions = require('./babel_options');
 
 const config = {
   entry: [
@@ -25,20 +25,7 @@ const config = {
       test: /jsx?/,
       use: {
         loader: 'babel-loader',
-        options: {
-          presets: [
-            "stage-0",
-            "es2015",
-            "react"
-          ],
-          plugins: [
-            "transform-runtime",
-            "transform-decorators-legacy",
-            "babel-plugin-transform-class-properties",
-            "universal-import"
-          ],
-          babelrc: false
-        }
+        options: babelOptions,
       },
       exclude: /node_modules/,
     }, 
@@ -65,7 +52,6 @@ const config = {
       filename: '[name].js',
       minChunks: Infinity
     }),
-    new WebpackModulesManifestPlugin(),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -75,7 +61,7 @@ const config = {
       }
     }),
     new ManifestPlugin(),
-    new WebpackStatsPlugin(),
+    new WebpackGenStatsPlugin(),
   ],
   devtool: '#eval-source-map'
 };

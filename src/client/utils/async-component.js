@@ -1,7 +1,7 @@
 import React from 'react';
 
 /**
- * 
+ * @deprecated
  * @param {*function return Promise<Component>} getComponent 
  */
 function asyncComp(getComponent) {

@@ -1,10 +1,11 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
-const initialStore = (preloadedState, compose) => {
+const initialStore = (preloadedState) => {
   let store, window;
+  const NODE_ENV = process.env.NODE_ENV;
   if (preloadedState) {
-    const composeEnhancers = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    const composeEnhancers = (NODE_ENV === 'development' && __REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ? __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ : compose;
     store = createStore(require('./reducer'), preloadedState, composeEnhancers(applyMiddleware(thunk)));
   } else {
     store = createStore(require('./reducer'), applyMiddleware(thunk));

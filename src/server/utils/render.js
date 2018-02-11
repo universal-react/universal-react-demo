@@ -12,20 +12,25 @@ import routers from '../../client/routers';
 
 import tmpl from './tmpl';
 
-function render(clientStats) {
+function render2String({ store, location, context }) {
+  return renderToString( 
+    <Provider store={store}>
+      <StaticRouter location={location} context={context}>
+        {renderRoutes(routers)}
+      </StaticRouter>
+    </Provider>
+  );
+}
 
-  return function (req, res, next) {
+function render(clientStats) {
+  return function (req, res) {
     const store = initialStore();
     const { dispatch } = store;
-    const branch = matchRoutes(routers, req.url);
-    const preContent = renderToString( // !!! 必须先渲染！因此此处渲染会调用指定的js和css从而让flushchunkname知道要插入哪些js，css
-      <Provider store={store}>
-        <StaticRouter location={req.url} context={{}}>
-          {renderRoutes(routers)}
-        </StaticRouter>
-      </Provider>
-    );
-    const promiseList = branch.map(({ route }) => {
+    const context = {};
+    const location = req.url;
+    const routeBranch = matchRoutes(routers, location); // 找到指定的 route 链路
+    render2String({ store, location, context }); // 需要先渲染一次，否则 match 的是 UniversalComponent，找不到正确组件的 getInitialData
+    const promiseList = routeBranch.map(({ route }) => {
       const { component } = route;
       const noop = Promise.resolve();
       const { WrappedComponent } = component;
@@ -37,15 +42,9 @@ function render(clientStats) {
     });
 
     Promise.all(promiseList)
-      .then(v => {
-        console.log(v);
-        const content = renderToString( // !!! 必须先渲染！因此此处渲染会调用指定的js和css从而让flushchunkname知道要插入哪些js，css
-          <Provider store={store}>
-            <StaticRouter location={req.url} context={{}}>
-              {renderRoutes(routers)}
-            </StaticRouter>
-          </Provider>
-        );
+      .then(() => {
+        // 必须先渲染！因此此处渲染会调用指定的js和css从而让flushchunkname知道要插入哪些js，css
+        const content = render2String({ store, location, context });
         const chunkNames = flushChunkNames();
         const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames })
         res.send(

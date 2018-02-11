@@ -8,15 +8,13 @@
     ["universal-import", {
       "babelServer": true
     }],
-    [
-      "css-modules-transform",
-      {
-        "generateScopedName": "[name]-[local]-[hash:base64:5]"
-      }
-    ],
+    ["css-modules-transform", {
+      "generateScopedName": "[name]-[local]-[hash:base64:5]"
+    }],
     "transform-runtime",
     "transform-decorators-legacy",
     "babel-plugin-transform-class-properties"
   ],
+  "comments": false,
   "sourceMaps": true
 }
