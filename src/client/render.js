@@ -2,25 +2,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { BrowserRouter } from 'react-router-dom';
+
+import Root from './container/root';
+
 import configureStore from './store';
-import App from './app';
 
 const store = configureStore(window.initialState);
 
 ReactDOM.hydrate(
   <Provider store={store}>
-    <App />
+    <BrowserRouter>
+      <Root />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('app')
 );
 
 if (module.hot) {
-  module.hot.accept('./app.js', function () {
+  module.hot.accept('./container/root/index.js', function () {
     // 使用更新过的 library 模块执行某些操作...
-    const NewApp = require('./app').default;
+    const NewRoot = require('./container/root/index.js').default;
     ReactDOM.render(
       <Provider store={store}>
-        <NewApp />
+        <NewRoot />
       </Provider>,
       document.getElementById('app')
     );
