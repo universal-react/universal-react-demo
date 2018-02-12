@@ -27,7 +27,6 @@ function render(clientStats) {
     const store = initialStore();
     const context = {};
     const location = req.url;
-    render2String({ store, location, context }); // 需要先渲染一次，否则 match 的是 UniversalComponent，找不到正确组件的 getInitialData
     const content = render2String({ store, location, context });
     const chunkNames = flushChunkNames();
     const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
