@@ -10,7 +10,7 @@ export function getInitialData(dispatch) {
   return dispatch(getUserList());
 }
 
-class Home extends Component {
+class Home extends Component<any, any> {
   constructor(props) {
     super(props);
   }
