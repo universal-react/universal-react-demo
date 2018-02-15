@@ -1,12 +1,12 @@
-import React from 'react';
+import * as React from 'react';
 
 /**
  * @deprecated
  * @param {*function return Promise<Component>} getComponent 
  */
-function asyncComp(getComponent) {
+function asyncComp(getComponent: () => Promise<any>) {
   return class AsyncComponent extends React.Component {
-    static Component = null;
+    static Component:any = null;
     state = { Component: AsyncComponent.Component }
     
     componentWillMount() {

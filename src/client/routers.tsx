@@ -1,5 +1,5 @@
 // client/routes.js
-import React from 'react';
+import * as React from 'react';
 import universal from 'react-universal-component'
 import AppRoot from './container/root';
 import Loading from './components/loading/container';

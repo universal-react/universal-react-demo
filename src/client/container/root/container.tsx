@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
+import * as React from 'react';
 import { Link } from 'react-router-dom';
 
-export class Root extends Component {
+export class Root extends React.Component<any, any> {
   render() {
     return (
       <div>

@@ -2,8 +2,8 @@
 
 // basic lib
 import chokidar from 'chokidar';
-import http from 'http';
-import path from 'path';
+import * as http from 'http';
+import * as path from 'path';
 import express from 'express';
 import chalk from 'chalk';
 

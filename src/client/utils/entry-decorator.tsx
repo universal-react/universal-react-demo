@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import * as React from 'react';
+import { Dispatch } from 'redux';
 
 /**
  * @deprecated
@@ -7,10 +8,10 @@ import React, { Component } from 'react';
  * @param {*} title 页面标题
  * @param {*} initialFunc 页面初始化数据 
  */
-const entry = (title = 'page title', initialFunc) => {
-  return function (PageComp) {
-    return class ContainerComp extends Component {
-      constructor(props) {
+const entry = (title = 'page title', initialFunc?: (dispatch: Dispatch<any>) => Promise<any>) => {
+  return function (PageComp: React.ComponentClass) {
+    return class ContainerComp extends React.Component<any, any> {
+      constructor(props: any) {
         super(props);
       }
 

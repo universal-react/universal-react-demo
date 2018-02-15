@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 
-const initialStore = (preloadedState) => {
+const initialStore = (preloadedState?: any) => {
   let store, window;
   const NODE_ENV = process.env.NODE_ENV;
   if (preloadedState) {

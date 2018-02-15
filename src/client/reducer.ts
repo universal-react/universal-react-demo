@@ -7,4 +7,4 @@ const rootReducer = combineReducers({
   error: Error,
 });
 
-module.exports = rootReducer;
+export default rootReducer;

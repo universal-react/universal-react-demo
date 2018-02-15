@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 
@@ -23,7 +23,7 @@ function render2String({ store, location, context }) {
 }
 
 function render(clientStats) {
-  return function (req, res) {
+  return function (req: Request, res: Response) {
     const store = initialStore();
     const { dispatch } = store;
     const context = {};

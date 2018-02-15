@@ -21,8 +21,13 @@
   },
   "homepage": "https://github.com/MrKou47/react-ssr-example#readme",
   "dependencies": {
+    "@types/node": "^9.4.6",
+    "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "@types/react-router-config": "^1.0.6",
     "@types/react-router-dom": "^4.2.3",
     "@types/redux": "^3.6.0",
+    "@types/webpack-env": "^1.13.5",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-react-transform": "^3.0.0",
