@@ -1,5 +1,5 @@
 import request from 'xhr-request';
-import THROW_ERR from '../../components/error/action';
+import { THROW_ERR } from '../../components/error/action';
 
 export const TOOGLE_BLANK_VISIBLE = 'TOOGLE_BLANK_VISIBLE';
 

@@ -38,14 +38,14 @@ class Home extends React.Component<any, any> {
   }
 }
 
-Home.title = 'home page';
-Home.getInitialData = getInitialData;
+(Home as any).title = 'home page';
+(Home as any).getInitialData = getInitialData;
 
 const mapState2Props = store => {
   return { ...store.home };
 }
 
-Home.propTypes = {
+(Home as any).propTypes = {
   list: PropTypes.array,
   blankVisible: PropTypes.bool,
   dispatch: PropTypes.func
