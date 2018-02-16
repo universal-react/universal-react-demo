@@ -1,7 +1,8 @@
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
-
+import { Request, Response } from 'express';
+import { Stats } from 'webpack';
 import { flushChunkNames } from 'react-universal-component/server'
 import flushChunks from 'webpack-flush-chunks'
 import { renderRoutes, matchRoutes } from 'react-router-config';
@@ -22,7 +23,7 @@ function render2String({ store, location, context }) {
   );
 }
 
-function render(clientStats) {
+function render(clientStats: Stats) {
   return function (req: Request, res: Response) {
     const store = initialStore();
     const { dispatch } = store;
@@ -31,7 +32,7 @@ function render(clientStats) {
     const routeBranch = matchRoutes(routers, location); // 找到指定的 route 链路
     render2String({ store, location, context }); // 需要先渲染一次，否则 match 的是 UniversalComponent，找不到正确组件的 getInitialData
     const promiseList = routeBranch.map(({ route }) => {
-      const { component } = route;
+      const component:any = route.component;
       const noop = Promise.resolve();
       const { WrappedComponent } = component;
       if (WrappedComponent && WrappedComponent.getInitialData) {

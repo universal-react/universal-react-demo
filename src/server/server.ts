@@ -4,15 +4,15 @@
 import chokidar from 'chokidar';
 import * as http from 'http';
 import * as path from 'path';
-import express from 'express';
+import * as express from 'express';
 import chalk from 'chalk';
 
 // express middleware
 import favicon from 'serve-favicon';
-import bodyParser from 'body-parser';
+import * as bodyParser from 'body-parser';
 
 // webpack required
-import webpack from 'webpack';
+import * as webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackDevConfig from '../../webpack/webpack.dev';
