@@ -6,10 +6,11 @@ import { Dispatch } from 'redux';
  * decorator 用于 client 渲染页面组件
  * 坏处（抑或是好处？）是每次组件前端mount都会主动请求数据
  * @param {*} title 页面标题
- * @param {*} initialFunc 页面初始化数据 
+ * @param {*} initialFunc 页面初始化数据
  */
 const entry = (title = 'page title', initialFunc?: (dispatch: Dispatch<any>) => Promise<any>) => {
-  return function (PageComp: React.ComponentClass) {
+  // tslint:disable-next-line:variable-name
+  return (PageComp: React.ComponentClass) => {
     return class ContainerComp extends React.Component<any, any> {
       constructor(props: any) {
         super(props);
@@ -29,10 +30,10 @@ const entry = (title = 'page title', initialFunc?: (dispatch: Dispatch<any>) => 
       render() {
         return (
           <PageComp {...this.props} />
-        )
+        );
       }
-    }
-  }
-}
+    };
+  };
+};
 
 export default entry;

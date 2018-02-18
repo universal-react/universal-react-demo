@@ -1,4 +1,13 @@
-function tmpl(options = { title: '', styles: '', content: '', initialStore: {}, cssHash: '', scripts: '' }) {
+interface ITmplOptions {
+  title: string;
+  styles: string;
+  content: string;
+  initialStore: any;
+  cssHash: string;
+  scripts: string;
+}
+
+function tmpl(options: ITmplOptions) {
   const { title, styles, content, initialStore, cssHash, scripts } = options;
   return `<!DOCTYPE html>
       <html lang="en">

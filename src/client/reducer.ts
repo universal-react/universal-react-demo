@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import HomeReducer from './container/home/reduer';
 import Error from './components/error/reducer';
+import HomeReducer from './container/home/reduer';
 
 const rootReducer = combineReducers({
   home: HomeReducer,

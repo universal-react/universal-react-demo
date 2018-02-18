@@ -1,11 +1,19 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-config-airbnb",
-        "tslint-react-recommended"
-    ],
-    "jsRules": {},
-    "rules": {},
-    "rulesDirectory": []
+	"defaultSeverity": "error",
+	"extends": [
+		"tslint:recommended",
+		"tslint-config-airbnb",
+		"tslint-react"
+	],
+	"jsRules": {},
+	"rules": {
+		"import-name": [0],
+		"trailing-comma": false,
+		"object-literal-sort-keys": false,
+		"ter-arrow-parens": [true, "as-needed"],
+		"jsx-no-multiline-js": false,
+		"member-access": [true, "no-public"],
+		"no-var-requires": false
+	},
+	"rulesDirectory": []
 }

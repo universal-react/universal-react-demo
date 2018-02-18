@@ -1,6 +1,5 @@
 import * as Action from './action';
 
-
 const initialState = {
   message: '',
   stack: '',
@@ -12,7 +11,7 @@ export default (state = initialState, action) =>  {
       return {
         ...state,
         ...action.payload,
-      }
+      };
     default:
       break;
   }

@@ -12,7 +12,7 @@ export const toogleBlankVisible = () => (dispatch, getState) => {
     type: TOOGLE_BLANK_VISIBLE,
     payload: !blankVisible
   });
-}
+};
 
 /**
  * return Promise
@@ -20,22 +20,23 @@ export const toogleBlankVisible = () => (dispatch, getState) => {
  */
 export const getUserList = () => dispath => {
   return new Promise((resolve, reject) => {
-    request('http://localhost:8388/user/list', {
-      json: true,
-    }, function (err, data) {
-      if (err) {
-        dispath({
-          type: THROW_ERR,
-          payload: err,
-        });
-        reject(err);
-      } else {
-        dispath({
-          type: UPDATE_USER_LIST,
-          payload: data.list,
-        });
-        resolve(data);
-      }
-    });
-  })
-}
+    request(
+      'http://localhost:8388/user/list',
+      { json: true, },
+      (err, data) => {
+        if (err) {
+          dispath({
+            type: THROW_ERR,
+            payload: err,
+          });
+          reject(err);
+        } else {
+          dispath({
+            type: UPDATE_USER_LIST,
+            payload: data.list,
+          });
+          resolve(data);
+        }
+      });
+  });
+};

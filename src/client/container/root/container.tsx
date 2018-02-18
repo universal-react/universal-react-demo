@@ -9,7 +9,7 @@ export class Root extends React.Component<any, any> {
         <br />
         <Link to="/profile">profile</Link>
       </div>
-    )
+    );
   }
 }
 

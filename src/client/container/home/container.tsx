@@ -1,5 +1,5 @@
-import * as React from 'react';
 import PropTypes from 'prop-types';
+import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { getUserList, toogleBlankVisible } from './action';
@@ -19,6 +19,11 @@ class Home extends React.Component<any, any> {
     getInitialData(this.props.dispatch);
   }
 
+  handleBtnClick = () => {
+    const { dispatch } = this.props;
+    dispatch(toogleBlankVisible());
+  }
+
   render() {
     const { list, blankVisible, dispatch } = this.props;
     const userListDOM = list.map((v, i) => <span key={i}>name: {v.name}</span>);
@@ -29,7 +34,7 @@ class Home extends React.Component<any, any> {
       <div>
           {userListDOM}
         </div>
-        <button onClick={() => dispatch(toogleBlankVisible())}>toggle blank</button>
+        <button onClick={this.handleBtnClick}>toggle blank</button>
         {blankVisible ?
           <div className={styles.blank}>blank</div>
           : null}
@@ -43,13 +48,12 @@ class Home extends React.Component<any, any> {
 
 const mapState2Props = store => {
   return { ...store.home };
-}
+};
 
 (Home as any).propTypes = {
   list: PropTypes.array,
   blankVisible: PropTypes.bool,
   dispatch: PropTypes.func
-}
+};
 
 export default connect(mapState2Props)(Home);
- 

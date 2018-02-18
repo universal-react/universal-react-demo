@@ -18,15 +18,20 @@ const config = {
     chunkFilename: '[name].js'
   },
   resolve: {
-    extensions: ['.js','.jsx']
+    extensions: ['.js','.jsx', '.ts', '.tsx']
   },
   module: {
     rules: [{
       test: /jsx?/,
-      use: {
-        loader: 'babel-loader',
-        options: babelOptions,
-      },
+      use: [
+        {
+          loader: 'babel-loader',
+          options: babelOptions,
+        },
+        {
+          loader: 'ts-loader'
+        }
+      ],
       exclude: /node_modules/,
     }, 
     {

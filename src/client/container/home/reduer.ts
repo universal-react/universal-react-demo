@@ -1,4 +1,4 @@
-import { UPDATE_USER_LIST, TOOGLE_BLANK_VISIBLE } from './action';
+import { TOOGLE_BLANK_VISIBLE, UPDATE_USER_LIST } from './action';
 const initialState = {
   list: [],
   blankVisible: true,

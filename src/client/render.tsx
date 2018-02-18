@@ -2,7 +2,9 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+
 import configureStore from './store';
+
 import App from './app';
 
 const store = configureStore(window.initialState);
@@ -15,8 +17,9 @@ ReactDOM.hydrate(
 );
 
 if (module.hot) {
-  module.hot.accept('./app.js', function () {
+  module.hot.accept('./app.js', () => {
     // 使用更新过的 library 模块执行某些操作...
+    // tslint:disable-next-line:variable-name
     const NewApp = require('./app').default;
     ReactDOM.render(
       <Provider store={store}>
@@ -24,5 +27,5 @@ if (module.hot) {
       </Provider>,
       document.getElementById('app')
     );
-  })
+  });
 }

@@ -1,21 +1,22 @@
 /* eslint no-useless-escape: 0, no-console:0  */
 
 // basic lib
-import chokidar from 'chokidar';
+import chalk from 'chalk';
+import * as chokidar from 'chokidar';
+import * as express from 'express';
 import * as http from 'http';
 import * as path from 'path';
-import * as express from 'express';
-import chalk from 'chalk';
 
 // express middleware
-import favicon from 'serve-favicon';
 import * as bodyParser from 'body-parser';
+import * as favicon from 'serve-favicon';
 
 // webpack required
 import * as webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackDevConfig from '../../webpack/webpack.dev';
+import * as webpackDevMiddleware from 'webpack-dev-middleware';
+import * as webpackHotMiddleware from 'webpack-hot-middleware';
+
+const webpackDevConfig = require('../../webpack/webpack.dev');
 
 import config from './config';
 
@@ -25,17 +26,17 @@ const { PORT, DEV } = config;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/user', function (req, res, next) {
+app.use('/user', (req, res, next) => {
   require('./routes/user')(req, res, next);
 });
 
 app.use(favicon(path.join(__dirname, '../../favicon.ico')));
 
 if (DEV) {
-
-  let clientStats = null; // https://doc.webpack-china.org/api/stats/#src/components/Sidebar/Sidebar.jsx
+  // https://doc.webpack-china.org/api/stats/#src/components/Sidebar/Sidebar.jsx
+  let clientStats = null;
   const compile = webpack(webpackDevConfig);
-  
+
   // use webpack in dev enviroment
   app.use(webpackDevMiddleware(compile, {
     publicPath: webpackDevConfig.output.publicPath,
@@ -47,8 +48,8 @@ if (DEV) {
   // Ensure there's no important state in there!
   const watcher = chokidar.watch(path.join(process.cwd(), 'src'));
 
-  watcher.on('ready', function () {
-    watcher.on('all', function (e, p) {
+  watcher.on('ready', () => {
+    watcher.on('all', (e, p) => {
       if (require.cache[p]) {
         console.log(`[chokidar] clearing ${p} cache`);
         delete require.cache[p];
@@ -58,7 +59,7 @@ if (DEV) {
 
   compile.plugin('done', stats => {
     clientStats = stats.toJson();
-    Object.keys(require.cache).forEach(function (id) {
+    Object.keys(require.cache).forEach(id => {
       if (/src[\\|\/]client/.test(id)) {
         console.log(`[chokidar] clearing ${id} cache`);
         delete require.cache[id];
@@ -77,7 +78,7 @@ if (DEV) {
 } else {
 
   app.use('/statics', express.static(path.join(process.cwd(), 'dist/statics')));
-  
+
   const stats = require(path.join(process.cwd(), 'dist/statics', 'webpack-stats.json'));
 
   app.get('*', (req, res, next) => {
