@@ -51,6 +51,7 @@ if (DEV) {
   watcher.on('ready', () => {
     watcher.on('all', (e, p) => {
       if (require.cache[p]) {
+        // tslint:disable-next-line:no-console
         console.log(`[chokidar] clearing ${p} cache`);
         delete require.cache[p];
       }
@@ -61,6 +62,7 @@ if (DEV) {
     clientStats = stats.toJson();
     Object.keys(require.cache).forEach(id => {
       if (/src[\\|\/]client/.test(id)) {
+        // tslint:disable-next-line:no-console
         console.log(`[chokidar] clearing ${id} cache`);
         delete require.cache[id];
       }
@@ -89,5 +91,6 @@ if (DEV) {
 const serve = http.createServer(app);
 
 serve.listen(PORT, () => {
+  // tslint:disable-next-line:no-console
   console.log(chalk.green(`server start on port ${PORT}`));
 });
