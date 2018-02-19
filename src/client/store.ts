@@ -5,9 +5,9 @@ const initialStore = (preloadedState?: any) => {
   let store;
   // tslint:disable-next-line:prefer-const
   let window;
-  const RDEC = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
   const NODE_ENV = process.env.NODE_ENV;
   if (preloadedState) {
+    const RDEC = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     const composeEnhancers = (NODE_ENV === 'development' && RDEC) ? RDEC : compose;
     store = createStore(
       require('./reducer'),

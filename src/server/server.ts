@@ -1,6 +1,11 @@
 /* eslint no-useless-escape: 0, no-console:0  */
-
 // basic lib
+const hook = require('css-modules-require-hook');
+
+hook({
+  generateScopedName: '[name]-[local]-[hash:base64:5]',
+});
+
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as express from 'express';
@@ -94,3 +99,5 @@ serve.listen(PORT, () => {
   // tslint:disable-next-line:no-console
   console.log(chalk.green(`server start on port ${PORT}`));
 });
+
+export default serve;

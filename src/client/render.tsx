@@ -17,7 +17,7 @@ ReactDOM.hydrate(
 );
 
 if (module.hot) {
-  module.hot.accept('./app.js', () => {
+  module.hot.accept('./app.tsx', () => {
     // 使用更新过的 library 模块执行某些操作...
     // tslint:disable-next-line:variable-name
     const NewApp = require('./app').default;

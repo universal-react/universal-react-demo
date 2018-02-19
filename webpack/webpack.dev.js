@@ -9,7 +9,7 @@ const babelOptions = require('./babel_options');
 const config = {
   entry: [
     'webpack-hot-middleware/client',
-    path.resolve(__dirname, '../src/client/render.js'),
+    path.resolve(__dirname, '../src/client/render.tsx'),
   ],
   output: {
     path: path.resolve(__dirname, '../dist/statics'),
@@ -22,7 +22,7 @@ const config = {
   },
   module: {
     rules: [{
-      test: /jsx?/,
+      test: /tsx?/,
       use: [
         {
           loader: 'babel-loader',
@@ -63,7 +63,8 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
-      }
+      },
+      "process.browser": JSON.stringify(true)
     }),
     new ManifestPlugin(),
     new WebpackGenStatsPlugin(),

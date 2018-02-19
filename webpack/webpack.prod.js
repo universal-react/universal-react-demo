@@ -6,7 +6,7 @@ const babelOptions = require('./babel_options');
 
 const config = {
   entry: [
-    path.resolve(__dirname, '../src/client/render.js'),
+    path.resolve(__dirname, '../src/client/render.tsx'),
   ],
   output: {
     filename: '[name].[chunkhash].js',
@@ -15,15 +15,20 @@ const config = {
     publicPath: '/statics/',
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx', '.ts', '.tsx']
   },
   module: {
     rules: [{
-      test: /jsx?/,
-      use: {
-        loader: 'babel-loader',
-        options: babelOptions
-      },
+      test: /tsx?/,
+      use: [
+        {
+          loader: 'babel-loader',
+          options: babelOptions,
+        },
+        {
+          loader: 'ts-loader'
+        }
+      ],
       exclude: /node_modules/,
     },
     {
