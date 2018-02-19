@@ -1,1 +1,1 @@
-export { default as ErrorWrapper } from './container.js';
+export { default as ErrorWrapper } from './container';

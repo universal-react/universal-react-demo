@@ -21,33 +21,41 @@ const config = {
     extensions: ['.js','.jsx', '.ts', '.tsx']
   },
   module: {
-    rules: [{
-      test: /tsx?/,
+    rules: [
+      {
+      test: /tsx?$/,
       use: [
-        {
-          loader: 'babel-loader',
-          options: babelOptions,
-        },
         {
           loader: 'ts-loader'
         }
       ],
       exclude: /node_modules/,
-    }, 
-    {
-      test: /\.css$/,
-      use: ExtractCssChunks.extract({
+      },
+      {
+        test: /js$/,
+        exclude: /node_modules/,
         use: [
           {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName: '[name]-[local]-[hash:base64:5]'
-            }
+            loader: 'babel-loader',
+            options: babelOptions,
           }
         ]
-      })
-    }]
+      },
+      {
+        test: /\.css$/,
+        use: ExtractCssChunks.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[name]-[local]-[hash:base64:5]'
+              }
+            }
+          ]
+        })
+      }
+    ]
   },
   plugins: [
     new WriteFilePlugin(),

@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 
 import { getUserList, toogleBlankVisible } from './action';
 
-// import styles from './home.css';
+import styles from './home.css';
 // const styles = require('./home.css');
 
-const styles = {
-  red: 'red',
-  blank: 'block',
-};
+// const styles = {
+//   red: 'red',
+//   blank: 'block',
+// };
 
 export function getInitialData(dispatch) {
   return dispatch(getUserList());

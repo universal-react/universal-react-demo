@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es2015",
     "module": "commonjs",
+    "allowJs": true,
     "lib": [
       "dom",
       "es2015.promise",
@@ -13,14 +14,15 @@
     "strict": true,
     "noImplicitAny": false,
     "moduleResolution": "node",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true
   },
   "include": [
-    "src/**/*"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ],
   "exclude": [
     "node_modules",
-    "dist",
-    "**/*.css"
+    "dist"
   ]
 }
