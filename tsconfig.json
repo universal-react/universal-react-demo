@@ -6,7 +6,8 @@
     "lib": [
       "dom",
       "es2015.promise",
-      "es5"
+      "es5",
+      "esnext"
     ],
     "jsx": "react",
     "sourceMap": true,

@@ -29,8 +29,10 @@ function render(clientStats: Stats) {
     const { dispatch } = store;
     const context = {};
     const location = req.url;
-    const routeBranch = matchRoutes(routers, location); // 找到指定的 route 链路
-    // 需要先渲染一次，否则 match 的是 UniversalComponent，找不到正确组件的 getInitialData
+     // find the current router chain
+    const routeBranch = matchRoutes(routers, location);
+    // must be rendered one time.Or you will get UniversalComponent rether than current Component
+    // and then you can't get the current getInitialData function.
     render2String({ store, location, context });
     const promiseList = routeBranch.map(({ route }) => {
       const component: any = route.component;
@@ -44,10 +46,12 @@ function render(clientStats: Stats) {
 
     Promise.all(promiseList)
       .then(() => {
-        // 必须先渲染！因此此处渲染会调用指定的js和css从而让flushchunkname知道要插入哪些js，css
+        // must rendered at first.
+        // flushchunkname will find current js and css file at this time.
         const content = render2String({ store, location, context });
         const chunkNames = flushChunkNames();
         const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
+        console.log(js.toString(), styles.toString(), cssHash.toString());
         res.send(
           tmpl({
             content,
