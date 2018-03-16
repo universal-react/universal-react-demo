@@ -1,47 +1,20 @@
 // client/routes.js
-import importCss from 'babel-plugin-universal-import/importCss.js';
 import * as React from 'react';
 import universal from 'react-universal-component';
 
-// import Loading from './components/loading/container';
 import AppRoot from './container/root';
 
-const load = props => {
-  console.log(props);
-  return Promise.all([
-    import(`./${props.page}`),
-    importCss(props.page)
-  ]).then(proms => proms[0]);
-}
-
-// tslint:disable-next-line:variable-name
-// export const AsyncHome = universal(import('./container/home'), {
-//   resolve: () => require.resolveWeak('./container/home'),
-//   chunkName: 'container/home',
-//   minDelay: 500,
-//   loading: Loading,
-// });
-
-// // tslint:disable-next-line:variable-name
-// export const AsyncProfile = universal(import('./container/profile'), {
-  //   resolve: () => require.resolveWeak('./container/profile'),
-  //   chunkName: 'container/profile',
-  //   minDelay: 500,
-  //   loading: Loading,
-  // });
-const UniversalFoo = universal(() => import('./container/home'), {
+const UniversalHome = universal(() => import('./container/home'), {
   resolve: () => require.resolveWeak('./container/home'),
   chunkName: 'container/home',
   minDelay: 500,
 });
 
-const UniversalComponent = universal(load, {
-  chunkName: props => props.page,
-  resolve: props => require.resolveWeak(`./${props.page}`)
+const UniversalProfile = universal(() => import('./container/profile'), {
+  resolve: () => require.resolveWeak('./container/profile'),
+  chunkName: 'container/profile',
+  minDelay: 500,
 });
-
-const AsyncHome = () => <UniversalComponent page="container/home" />;
-const AsyncProfile = () => <UniversalComponent page="container/profile" />;
 
 const routes = [
   {
@@ -51,11 +24,11 @@ const routes = [
   },
   {
     path: '/home',
-    component: UniversalFoo,
+    component: UniversalHome,
   },
   {
     path: '/profile',
-    component: AsyncProfile,
+    component: UniversalProfile,
   }
 ];
 

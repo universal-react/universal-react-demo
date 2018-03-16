@@ -1,16 +1,9 @@
-import * as PropTypes from 'prop-types';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { getUserList, toogleBlankVisible } from './action';
 
 import styles from './home.css';
-// const styles = require('./home.css');
-
-// const styles = {
-//   red: 'red',
-//   blank: 'block',
-// };
 
 export function getInitialData(dispatch) {
   return dispatch(getUserList());
@@ -54,12 +47,6 @@ class Home extends React.Component<any, any> {
 
 const mapState2Props = store => {
   return { ...store.home };
-};
-
-(Home as any).propTypes = {
-  list: PropTypes.array,
-  blankVisible: PropTypes.bool,
-  dispatch: PropTypes.func
 };
 
 export default connect(mapState2Props)(Home);
