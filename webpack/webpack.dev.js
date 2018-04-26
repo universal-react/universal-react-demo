@@ -30,9 +30,6 @@ const config = {
       test: /tsx?$/,
       use: [
         {
-          loader: 'babel-loader',
-        },
-        {
           loader: 'ts-loader',
           options: {
             configFile: 'ts-compiler-config.json'
