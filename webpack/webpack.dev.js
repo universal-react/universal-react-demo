@@ -63,7 +63,7 @@ const config = {
     new ManifestPlugin(),
     new WebpackGenStatsPlugin(),
   ],
-  devtool: '#eval-source-map'
+  devtool: 'source-map'
 };
 
 module.exports = config;
