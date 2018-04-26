@@ -17,6 +17,10 @@ const config = {
     publicPath: '/statics/',
     chunkFilename: '[name].js'
   },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+  },
   resolve: {
     extensions: ['.js','.jsx', '.ts', '.tsx']
   },
@@ -26,7 +30,13 @@ const config = {
       test: /tsx?$/,
       use: [
         {
-          loader: 'ts-loader'
+          loader: 'babel-loader',
+        },
+        {
+          loader: 'ts-loader',
+          options: {
+            configFile: 'ts-compiler-config.json'
+          }
         }
       ],
       exclude: /node_modules/,
@@ -77,7 +87,7 @@ const config = {
     new ManifestPlugin(),
     new WebpackGenStatsPlugin(),
   ],
-  devtool: '#eval-source-map'
+  devtool: 'source-map'
 };
 
 module.exports = config;

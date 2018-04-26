@@ -23,6 +23,8 @@ function tmpl(options: ITmplOptions) {
         </head>
         <body>
         <div id="app">${content}</div>
+        <script src="https://cdn.bootcss.com/react/16.2.0/umd/react.development.js"></script>
+        <script src="https://cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.development.js"></script>
         ${scripts}
         ${cssHash}
       </body>

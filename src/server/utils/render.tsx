@@ -51,7 +51,7 @@ function render(clientStats: Stats) {
         const content = render2String({ store, location, context });
         const chunkNames = flushChunkNames();
         const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
-        console.log(js.toString(), styles.toString(), cssHash.toString());
+        console.log(content);
         res.send(
           tmpl({
             content,
