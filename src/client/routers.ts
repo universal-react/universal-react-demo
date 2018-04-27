@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable */
 // client/routes.js
 import * as React from 'react';
 import universal from 'react-universal-component';
