@@ -6,6 +6,10 @@ import importCss from 'babel-plugin-universal-import/importCss.js'
 
 import AppRoot from './container/root';
 
+// 由于 ts-node/register 无法使用 babel-plugin-universal-import 所以我们需要将 babel-plugin-universal-import 转换后的代码明写出来
+// 实际上这个 plugin 只是在 babylon 处理 import 语法之前处理 import 语法
+
+// TODO
 // const load = props => {
 //   console.log(props);
 //   return Promise.all([
