@@ -1,3 +1,4 @@
+/* tslint:disable variable-name no-console no-empty */
 import { Request, Response } from 'express';
 import * as React from 'react';
 import { renderToString } from 'react-dom/server';
@@ -30,24 +31,16 @@ function render(clientStats: Stats) {
     const context = {};
     const location = req.url;
      // find the current router chain
-    const routeBranch = matchRoutes(routers, location);
-    // must be rendered one time.Or you will get UniversalComponent rether than current Component
-    // and then you can't get the current getInitialData function.
-    render2String({ store, location, context });
-    const promiseList = routeBranch.map(({ route }) => {
-      const component: any = route.component;
-      const noop = Promise.resolve();
-      const { WrappedComponent } = component;
-      if (WrappedComponent && WrappedComponent.getInitialData) {
-        return WrappedComponent.getInitialData(dispatch);
-      }
-      return noop;
-    });
+    const routeBranch: any[] = matchRoutes(routers, location);
 
-    Promise.all(promiseList)
+    const UniversalComponentPreload = routeBranch.map(router => {
+      const noop = () => {};
+      return router.route.component.preload()
+        .then(UniversalComponent =>
+          UniversalComponent.getInitialData ? UniversalComponent.getInitialData(dispatch) : noop);
+    });
+    Promise.all(UniversalComponentPreload)
       .then(() => {
-        // must rendered at first.
-        // flushchunkname will find current js and css file at this time.
         const content = render2String({ store, location, context });
         const chunkNames = flushChunkNames();
         const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
@@ -65,9 +58,10 @@ function render(clientStats: Stats) {
         );
       })
       .catch(e => {
+        console.log(e);
+        // throw new Error(e);
         res.send(e);
       });
-
   };
 }
 

@@ -1,6 +1,7 @@
 /* tslint:disable variable-name ordered-imports max-line-length */
 // client/routes.js
 import * as React from 'react';
+import * as path from 'path';
 import universal from 'react-universal-component';
 // import importCss from 'babel-plugin-universal-import/importCss.js';
 const importCss = require('babel-plugin-universal-import/importCss.js');
@@ -22,6 +23,7 @@ import AppRoot from './container/root';
 
 const UniversalHome = universal(universalImport({
   chunkName: () => 'container/home',
+  path: () => path.join(__dirname, './container/home'),
   load: () => Promise.all([
     import('./container/home'),
     importCss('container/home')

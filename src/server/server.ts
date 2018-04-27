@@ -6,6 +6,8 @@ hook({
   generateScopedName: '[name]-[local]-[hash:base64:5]',
 });
 
+// import hook from 'css-modules-require-hook';
+
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
 import * as express from 'express';
