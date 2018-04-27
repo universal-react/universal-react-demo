@@ -24,6 +24,7 @@ import AppRoot from './container/root';
 const UniversalHome = universal(universalImport({
   chunkName: () => 'container/home',
   path: () => path.join(__dirname, './container/home'),
+  resolve: () => require.resolveWeak('./container/home'),
   load: () => Promise.all([
     import('./container/home'),
     importCss('container/home')
