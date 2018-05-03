@@ -1,4 +1,3 @@
-// import request from 'xhr-request';
 const request = require('xhr-request');
 import { THROW_ERR } from '../../components/error/action';
 
