@@ -35,9 +35,12 @@ function render(clientStats: Stats) {
 
     const UniversalComponentPreload = routeBranch.map(router => {
       const noop = () => {};
-      return router.route.component.preload()
+      return router.route.component.preload ? router.route.component.preload()
         .then(UniversalComponent =>
-          UniversalComponent.getInitialData ? UniversalComponent.getInitialData(dispatch) : noop);
+          UniversalComponent.getInitialData ?
+          UniversalComponent.getInitialData(dispatch) :
+          noop
+        ) : noop;
     });
     Promise.all(UniversalComponentPreload)
       .then(() => {

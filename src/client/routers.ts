@@ -31,11 +31,14 @@ const UniversalHome = universal(universalImport({
   ]).then(proms => proms[0])
 }));
 
-const UniversalProfile = universal(() => import('./container/profile'), {
+const UniversalProfile = universal(universalImport({
+  chunkName: () => 'container/profile',
+  path: () => path.join(__dirname, './container/profile'),
   resolve: () => require.resolveWeak('./container/profile'),
-  chunkName: 'container/profile',
-  minDelay: 500,
-});
+  load: () => Promise.all([
+    import('./container/profile'),
+  ]).then(proms => proms[0])
+}));
 
 const routes = [
   {
