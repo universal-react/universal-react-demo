@@ -1,9 +1,14 @@
 import * as React from 'react';
 
+const img = require('../../assets/images/pig.jpg');
+
 export class Profile extends React.Component<any, any> {
   render() {
     return (
-      <div>This is my profile!</div>
+      <div>
+        <div>This is my profile!</div>
+        <img src={img} />
+      </div>
     );
   }
 }

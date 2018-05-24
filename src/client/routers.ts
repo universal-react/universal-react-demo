@@ -1,12 +1,10 @@
 /* tslint:disable variable-name ordered-imports max-line-length */
-// client/routes.js
+const importCss = require('babel-plugin-universal-import/importCss.js');
+const universalImport = require('babel-plugin-universal-import/universalImport.js');
+
 import * as React from 'react';
 import * as path from 'path';
 import universal from 'react-universal-component';
-// import importCss from 'babel-plugin-universal-import/importCss.js';
-const importCss = require('babel-plugin-universal-import/importCss.js');
-// import universalImport from 'babel-plugin-universal-import/universalImport.js';
-const universalImport = require('babel-plugin-universal-import/universalImport.js');
 import AppRoot from './container/root';
 
 /**

@@ -25,48 +25,44 @@ const config = {
     extensions: ['.js','.jsx', '.ts', '.tsx']
   },
   module: {
-    rules: [
-      {
+    rules: [{
       test: /\.tsx?$/,
-      use: [
-        {
-          loader: "babel-loader",
-          options: babelOptions,
-        },
-        {
-          loader: 'ts-loader',
-          options: {
-            configFile: 'ts-compiler-config.json'
-          }
+      use: [{
+        loader: "babel-loader",
+        options: babelOptions,
+      }, {
+        loader: 'ts-loader',
+        options: {
+          configFile: 'ts-compiler-config.json'
         }
-      ],
+      }],
       exclude: /node_modules/,
-      },
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: babelOptions,
+    },
+    {
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: [{
+        loader: 'babel-loader',
+        options: babelOptions,
+      }]
+    },
+    {
+      test: /\.css$/,
+      use: ExtractCssChunks.extract({
+        use: [{
+          loader: 'css-loader',
+          options: {
+            modules: true,
+            localIdentName: '[name]-[local]-[hash:base64:5]'
           }
-        ]
+        }]
+      })
+    }, {
+      test: /\.(jpg|png)$/,
+      use: {
+        loader: 'file-loader'
       },
-      {
-        test: /\.css$/,
-        use: ExtractCssChunks.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[name]-[local]-[hash:base64:5]'
-              }
-            }
-          ]
-        })
-      }
-    ]
+    }]
   },
   plugins: [
     new WriteFilePlugin(),
@@ -78,7 +74,6 @@ const config = {
     }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NoEmitOnErrorsPlugin(),
-    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
