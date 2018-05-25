@@ -58,7 +58,7 @@ const config = {
         }]
       })
     }, {
-      test: /\.(jpg|png|html)$/,
+      test: /\.(jpg|png)$/,
       use: {
         loader: 'file-loader',
         options: {

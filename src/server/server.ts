@@ -11,7 +11,6 @@ require('asset-require-hook')({
     return publicPath;
   }
 });
-
 require('raw-module-require-hook')({
   extensions: ['html', 'txt']
 });
