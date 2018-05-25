@@ -2,7 +2,7 @@
 // basic lib
 const hook = require('css-modules-require-hook');
 require('asset-require-hook')({
-  extensions: ['jpg', 'png'],
+  extensions: ['jpg', 'png', 'html'],
   name: '[path][name].[ext]',
   // ${cwd}/src/client/assets/images/pig.jpg
   publicPath: result => {
@@ -10,6 +10,10 @@ require('asset-require-hook')({
     const publicPath = result.replace(cwd, '/statics'); // TODO get publicPath above
     return publicPath;
   }
+});
+
+require('raw-module-require-hook')({
+  extensions: ['html', 'txt']
 });
 
 hook({

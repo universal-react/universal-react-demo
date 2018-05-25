@@ -58,13 +58,16 @@ const config = {
         }]
       })
     }, {
-      test: /\.(jpg|png)$/,
+      test: /\.(jpg|png|html)$/,
       use: {
         loader: 'file-loader',
         options: {
           name: '[path][name].[ext]'
         }
       },
+    }, {
+      test: /\.(html|txt)$/,
+      loader: 'raw-loader'
     }]
   },
   plugins: [
