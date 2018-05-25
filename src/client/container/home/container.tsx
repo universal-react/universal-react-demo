@@ -24,20 +24,18 @@ class Home extends React.Component<any, any> {
   }
 
   render() {
-    console.log(styles);
-    const style = styles as any;
     const { list, blankVisible, dispatch } = this.props;
     const userListDOM = list.map((v, i) => <span key={i}>name: {v.name}</span>);
 
     return (
-      <div className={style.red}>
+      <div className={styles.red}>
       <span>Hello</span>
       <div>
           {userListDOM}
         </div>
         <button onClick={this.handleBtnClick}>toggle blank</button>
         {blankVisible ?
-          <div className={style.blank}>blank</div>
+          <div className={styles.blank}>blank</div>
           : null}
       </div>
     );

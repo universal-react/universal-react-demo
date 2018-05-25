@@ -4,6 +4,7 @@
   "description": "react server side render - step by step",
   "main": "/src/server/server.js",
   "scripts": {
+    "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development ts-node src/server/server.ts",
     "prod": "node dist/server/server.js",
     "build": "npm run clean && npm run bundle && tsc src/**/* --outDir dist",
@@ -37,6 +38,7 @@
     "@types/webpack-dev-middleware": "^2.0.0",
     "@types/webpack-env": "^1.13.5",
     "@types/webpack-hot-middleware": "^2.16.2",
+    "asset-require-hook": "^1.2.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-react-transform": "^3.0.0",

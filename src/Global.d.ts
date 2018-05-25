@@ -1,6 +1,13 @@
 declare module '*.css' {
-  const content: any;
-  export default content;
+  interface IClassNames {
+    [className: string]: string
+  }
+  const classNames: IClassNames;
+  export = classNames;
+}
+declare module '*.jpg' {
+  const src: any;
+  export = src;
 }
 
 declare const __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;

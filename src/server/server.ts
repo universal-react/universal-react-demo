@@ -1,6 +1,16 @@
 /* eslint no-useless-escape: 0, no-console:0  */
 // basic lib
 const hook = require('css-modules-require-hook');
+require('asset-require-hook')({
+  extensions: ['jpg', 'png'],
+  name: '[path][name].[ext]',
+  // ${cwd}/src/client/assets/images/pig.jpg
+  publicPath: result => {
+    const cwd = process.cwd();
+    const publicPath = result.replace(cwd, '/statics'); // TODO get publicPath above
+    return publicPath;
+  }
+});
 
 hook({
   generateScopedName: '[name]-[local]-[hash:base64:5]',
@@ -83,6 +93,7 @@ if (DEV) {
     }
     require('./utils/render').default(clientStats)(req, res, next);
   });
+  app.use('/src', express.static(path.join(process.cwd(), 'src')));
 
 } else {
 

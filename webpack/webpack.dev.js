@@ -60,7 +60,10 @@ const config = {
     }, {
       test: /\.(jpg|png)$/,
       use: {
-        loader: 'file-loader'
+        loader: 'file-loader',
+        options: {
+          name: '[path][name].[ext]'
+        }
       },
     }]
   },
