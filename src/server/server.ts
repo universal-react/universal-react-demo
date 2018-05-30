@@ -2,7 +2,7 @@
 // basic lib
 const hook = require('css-modules-require-hook');
 require('asset-require-hook')({
-  extensions: ['jpg', 'png', 'html'],
+  extensions: ['jpg', 'png'],
   name: '[path][name].[ext]',
   // ${cwd}/src/client/assets/images/pig.jpg
   publicPath: result => {

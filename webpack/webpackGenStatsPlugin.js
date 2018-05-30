@@ -17,9 +17,7 @@ WebpackGenStatsPlugin.prototype.apply = function (compiler) {
     const fileName = 'webpack-stats.json';
     const filePath = this.options.path ? path.join(this.options.path, fileName) : path.join(stats.compilation.outputOptions.path, fileName);
     fs.writeFile(filePath, statsStr, (err) => {
-      if (err) {
-        process.exit(1);
-      }
+      if (err) process.exit(1);
     });
   });
 }
