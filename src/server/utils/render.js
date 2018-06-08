@@ -30,12 +30,12 @@ function render(clientStats) {
     const context = {};
     const location = req.url;
     const routeBranch = matchRoutes(routers, location); // 找到指定的 route 链路
-    const universalComponentPreload = routeBranch.map(({ route }) => {
-      return route.component.preload();
-    })
-    Promise.all(universalComponentPreload).then(res => {
-      console.log(res);
-    })
+    // const universalComponentPreload = routeBranch.map(({ route }) => {
+    //   return route.component.preload();
+    // })
+    // Promise.all(universalComponentPreload).then(res => {
+    //   console.log(res);
+    // })
     render2String({ store, location, context }); // 需要先渲染一次，否则 match 的是 UniversalComponent，找不到正确组件的 getInitialData
     const promiseList = routeBranch.map(({ route }) => {
       console.log(route);

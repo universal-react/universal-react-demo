@@ -18,6 +18,7 @@ import webpackHotMiddleware from 'webpack-hot-middleware';
 import webpackDevConfig from '../../webpack/webpack.dev';
 
 import config from './config';
+const DashboardPlugin = require('webpack-dashboard/plugin');
 
 const app = express();
 const { PORT, DEV } = config;
@@ -35,7 +36,7 @@ if (DEV) {
 
   let clientStats = null; // https://doc.webpack-china.org/api/stats/#src/components/Sidebar/Sidebar.jsx
   const compile = webpack(webpackDevConfig);
-  
+  compiler.apply(new DashboardPlugin());
   // use webpack in dev enviroment
   app.use(webpackDevMiddleware(compile, {
     publicPath: webpackDevConfig.output.publicPath,
