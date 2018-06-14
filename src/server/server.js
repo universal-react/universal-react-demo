@@ -36,7 +36,7 @@ if (DEV) {
 
   let clientStats = null; // https://doc.webpack-china.org/api/stats/#src/components/Sidebar/Sidebar.jsx
   const compile = webpack(webpackDevConfig);
-  compiler.apply(new DashboardPlugin());
+  compile.apply(new DashboardPlugin());
   // use webpack in dev enviroment
   app.use(webpackDevMiddleware(compile, {
     publicPath: webpackDevConfig.output.publicPath,
