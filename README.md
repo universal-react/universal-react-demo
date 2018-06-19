@@ -757,7 +757,7 @@ export default serve;
 
 - [x] Include redux
 - [x] Include css module
-- [ ] Visual Studio Code use nodemon
+- [x] ~~Visual Studio Code use nodemon~~ use chokidar
 - [ ] Production useful
 - [ ] require.ensure
 - [ ] Code Splitting
