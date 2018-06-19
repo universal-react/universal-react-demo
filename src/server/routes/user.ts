@@ -4,8 +4,9 @@ const userRouter = express.Router({
   caseSensitive: true,
 });
 
-userRouter.get("/list", (req, res) => {
-  res.json({ list: [{ name: "bob" }, { name: "kkk" }] }).end();
+userRouter.get('/list', (req, res) => {
+  const mock = { list: [{ name: 'bob' }, { name: 'kkk' }] };
+  res.json(mock).end();
 });
 
 module.exports = userRouter;

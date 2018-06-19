@@ -1,6 +1,9 @@
 /* eslint no-useless-escape: 0, no-console:0  */
 // basic lib
 const hook = require('css-modules-require-hook');
+hook({
+  generateScopedName: '[name]-[local]-[hash:base64:5]',
+});
 require('asset-require-hook')({
   extensions: ['jpg', 'png'],
   name: '[path][name].[ext]',
@@ -14,12 +17,6 @@ require('asset-require-hook')({
 require('raw-module-require-hook')({
   extensions: ['html', 'txt']
 });
-
-hook({
-  generateScopedName: '[name]-[local]-[hash:base64:5]',
-});
-
-// import hook from 'css-modules-require-hook';
 
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
