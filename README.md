@@ -752,6 +752,11 @@ export default serve;
 
 在这一步我们需要初始化react的事件绑定。我们只需要在页面中引入webpack打包好的js文件就可以了。
 
+## TODO
+
+- customer react component
+- css chunk plugin
+- css-loader
 
 # Future
 
