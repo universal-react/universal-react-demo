@@ -1,3 +1,4 @@
+/* tslint:disable */
 interface ITmplOptions {
   title: string;
   styles: string;
