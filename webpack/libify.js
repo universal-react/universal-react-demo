@@ -37,9 +37,6 @@ module.exports = function libify(code) {
   let replacedPath;
   let outputPath = resourcePath;
 
-
-  console.log('callback', callback);
-
   if (!callback) {
     if (resourcePath.split(path.sep).indexOf('node_modules') !== -1) {
       return code;
@@ -47,18 +44,13 @@ module.exports = function libify(code) {
 
     mkdirp.sync(path.dirname(outputPath));
     fs.writeFileSync(outputPath, genContent(resourcePath, content, replacedPath));
-    return content;
+    return isCss ? code : content;
   }
 
   if (resourcePath.split(path.sep).indexOf('node_modules') !== -1) {
     process.nextTick(() => callback(null, content));
     return code;
   }
-
-
-  // console.log(isCss);
-  // console.log(code);
-  // console.log(resourcePath);
 
   if (replace) {
     if (typeof replace === 'function') {
@@ -73,7 +65,6 @@ module.exports = function libify(code) {
   try {
     replacedPath = publicPath || this.options.output.publicPath;
   } catch (e) {
-    console.log(e);
     return callback(e);
   }
 
@@ -82,12 +73,10 @@ module.exports = function libify(code) {
 
   // write code to outputPath
   mkdirp(path.dirname(outputPath), (err) => {
-    console.log(err);
     if (err) return callback(err);
     fs.writeFile(outputPath, content, fserr => {
-      callback(fserr, content)
+      callback(fserr, isCss ? code : content);
     });
   });
 
-  return code;
 };
