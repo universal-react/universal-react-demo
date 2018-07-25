@@ -50,6 +50,12 @@ const config = {
       test: /\.css$/,
       use: ExtractCssChunks.extract({
         use: [{
+          loader: require.resolve('./libify.js'),
+          options: {
+            replace: sourcePath => sourcePath.replace(/src/, /dist/),
+            publicPath: '/statics/',
+          }
+        },{
           loader: 'css-loader',
           options: {
             modules: true,
@@ -59,20 +65,41 @@ const config = {
       })
     }, {
       test: /\.(jpg|png)$/,
-      use: {
-        loader: 'file-loader',
-        options: {
-          name: '[path][name].[ext]'
+      use: [
+        {
+          loader: require.resolve('./libify.js'),
+          options: {
+            replace: sourcePath => sourcePath.replace(/src/, /dist/),
+            publicPath: '/statics/',
+          }
+        },
+        {
+          loader: 'file-loader',
+          options: {
+            name: '[path][name].[ext]'
+          }
         }
-      },
+      ],
     }, {
       test: /\.(html|txt)$/,
-      loader: 'raw-loader'
+      use: [
+        {
+          loader: require.resolve('./libify.js'),
+          options: {
+            replace: sourcePath => sourcePath.replace(/src/, /dist/),
+            publicPath: '/statics/',
+          }
+        }, {
+          loader: 'raw-loader',
+        }
+      ]
     }]
   },
   plugins: [
     new WriteFilePlugin(),
-    new ExtractCssChunks(),
+    new ExtractCssChunks({
+      filename: "[name].css",
+    }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
       filename: '[name].js',

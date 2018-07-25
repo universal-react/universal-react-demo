@@ -10,7 +10,7 @@
       "esnext"
     ],
     "jsx": "react",
-    "sourceMap": true,
+    "sourceMap": false,
     "outDir": "./dist",
     "strict": true,
     "noImplicitAny": false,

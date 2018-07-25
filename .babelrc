@@ -16,5 +16,5 @@
     "babel-plugin-transform-class-properties"
   ],
   "comments": false,
-  "sourceMaps": true
+  "sourceMaps": false
 }

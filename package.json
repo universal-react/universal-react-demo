@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "dev": "cross-env NODE_ENV=development ts-node src/server/server.ts",
-    "prod": "node dist/server/server.js",
+    "prod": "cross-env NODE_ENV=production node dist/server/server.js",
     "build": "npm run clean && npm run build:client && npm run build:server",
     "build:client": "npm run build:dev",
     "build:server": "tsc --outDir dist --listFiles",
