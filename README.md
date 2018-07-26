@@ -8,6 +8,14 @@ Used:
  - universal-component
  - express
  - typescript, babel
+ - `require.extensions` techology
+
+# Feature
+
+- hot-reload without refresh
+- debug typescript code
+- manage static file
+- just a simple react universal framework implement. Easy to expand.
 
 # How to run
 
