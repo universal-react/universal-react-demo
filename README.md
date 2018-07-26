@@ -38,5 +38,5 @@ yarn run bundle
 - [x] ~~Visual Studio Code use nodemon~~
 - [x] require.ensure
 - [x] Code Splitting
-- [ ] Production useful
-- [ ] Optmize webpack config
+- [x] Production useful
+- [x] Optmize webpack config
