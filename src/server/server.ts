@@ -51,13 +51,13 @@ app.use('/user', (req, res, next) => {
 app.use(favicon(path.join(__dirname, '../../favicon.ico')));
 
 if (DEV) {
-  // https://doc.webpack-china.org/api/stats/#src/components/Sidebar/Sidebar.jsx
   let clientStats = null;
   const compile = webpack(webpackDevConfig);
 
   // use webpack in dev enviroment
   app.use(webpackDevMiddleware(compile, {
     publicPath: webpackDevConfig.output.publicPath,
+    logLevel: 'error',
   }));
   app.use(webpackHotMiddleware(compile));
 
@@ -70,7 +70,7 @@ if (DEV) {
     watcher.on('all', (e, p) => {
       if (require.cache[p]) {
         // tslint:disable-next-line:no-console
-        console.log(`[chokidar] clearing ${p} cache`);
+        console.log(`[chokidar] clearing ${path.relative(process.cwd(), p)} cache`);
         delete require.cache[p];
       }
     });
@@ -81,7 +81,7 @@ if (DEV) {
     Object.keys(require.cache).forEach(id => {
       if (/src[\\|\/]client/.test(id)) {
         // tslint:disable-next-line:no-console
-        console.log(`[chokidar] clearing ${id} cache`);
+        console.log(`[chokidar] clearing ${path.relative(process.cwd(), id)} cache`);
         delete require.cache[id];
       }
     });
@@ -100,7 +100,8 @@ if (DEV) {
 
   app.use('/statics', express.static(path.join(process.cwd(), 'dist/statics')));
 
-  const stats = require(path.join(process.cwd(), 'dist/statics', 'webpack-stats.json'));
+  // const stats = require(path.join(process.cwd(), 'dist/statics', 'webpack-stats.json'));
+  const stats = require(path.resolve('./dist/statics/webpack-stats.json'));
 
   app.get('*', (req, res, next) => {
     require('./utils/render').default(stats.statsJson)(req, res, next);

@@ -1,4 +1,8 @@
 /* tslint:disable */
+import { env } from './env';
+
+const { isDev } = env;
+
 interface ITmplOptions {
   title: string;
   styles: string;
@@ -24,8 +28,10 @@ function tmpl(options: ITmplOptions) {
         </head>
         <body>
         <div id="app">${content}</div>
-        <script src="https://cdn.bootcss.com/react/16.2.0/umd/react.development.js"></script>
-        <script src="https://cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.development.js"></script>
+        ${isDev ?
+          '<script src="https://cdn.bootcss.com/react/16.2.0/umd/react.development.js"></script><script src="https://cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.development.js"></script>':
+          '<script src="https://cdn.bootcss.com/react/16.2.0/umd/react.production.min.js"></script><script src="https://cdn.bootcss.com/react-dom/16.2.0/cjs/react-dom.production.min.js"></script>'
+        }
         ${scripts}
         ${cssHash}
       </body>
