@@ -14,9 +14,9 @@ module.exports =
       publicPath: '/statics/',
     },
     plugins: [
-      new webpack.optimize.UglifyJsPlugin({
-        comments: false,
-      }),
+      // new webpack.optimize.UglifyJsPlugin({
+      //   comments: false,
+      // }),
       new webpack.optimize.CommonsChunkPlugin({
         names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
         filename: '[name].[chunkhash].js',

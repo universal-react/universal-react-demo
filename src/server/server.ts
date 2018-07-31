@@ -111,8 +111,8 @@ if (DEV) {
 const serve = http.createServer(app);
 
 serve.listen(PORT, () => {
-  // tslint:disable-next-line:no-console
-  console.log(chalk.green(`server start on port ${PORT}`));
+  // tslint:disable no-console
+  console.log(chalk.green(`server start on http://localhost:${PORT}`));
 });
 
 export default serve;

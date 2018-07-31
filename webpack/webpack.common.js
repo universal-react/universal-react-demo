@@ -38,7 +38,7 @@ const config = {
       }, {
         loader: 'ts-loader',
         options: {
-          configFile: 'ts-compiler-config.json'
+          configFile: 'webpack/tsconfig.json'
         }
       }],
       exclude: /node_modules/,

@@ -1,4 +1,12 @@
-/* eslint-disable no-console */
+/**
+ * @summary generate .${extensition}.js file for static files (like svg, png, html, etc.)
+ * @author mrkou47
+ *
+ * Created at     : 2018-07-30 15:54:02 
+ * Last modified  : 2018-07-30 15:56:39
+ */
+
+/* eslint-disable no-console, consistent-return */
 const fs = require('fs');
 const path = require('path');
 const jsTokens = require('js-tokens').default;
@@ -25,8 +33,7 @@ const genContent = (resourcePath, content, replacedPath) => {
 }
 
 module.exports = function libify(code) {
-  /* eslint consistent-return:0 */
-  // this.cacheable();
+  this.cacheable();
   const callback = this.async();
   const options = getOptions(this);
   const { replace, publicPath } = options;
