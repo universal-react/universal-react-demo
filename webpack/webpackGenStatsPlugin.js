@@ -4,7 +4,6 @@ const path = require('path');
 /**
  * transfer stats to json
  * @param {object} options.path generate file path
- * finally the webpack-stats.json should like this: { statsJson: WEBPACK_STATS_OBJ }
  */
 function WebpackGenStatsPlugin(options) {
   this.options = Object.assign({}, options, { path: '' }) ;
@@ -13,7 +12,7 @@ function WebpackGenStatsPlugin(options) {
 WebpackGenStatsPlugin.prototype.apply = function (compiler) {
   compiler.plugin('done', stats => {
     const statsJson = stats.toJson();
-    const statsStr = JSON.stringify({ statsJson });
+    const statsStr = JSON.stringify(statsJson, null, 2);
     const fileName = 'webpack-stats.json';
     const filePath = this.options.path ? path.join(this.options.path, fileName) : path.join(stats.compilation.outputOptions.path, fileName);
     fs.writeFile(filePath, statsStr, (err) => {

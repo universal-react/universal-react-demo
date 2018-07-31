@@ -14,7 +14,7 @@ import initialStore from '../../client/store';
 
 import tmpl from './tmpl';
 
-function render2String({ store, location, context }) {
+function render2String({ store, location, context = {} }) {
   return renderToString(
     <Provider store={store}>
       <StaticRouter location={location} context={context}>
@@ -60,9 +60,8 @@ function render(clientStats: Stats) {
         );
       })
       .catch(e => {
-        console.log(e);
         // throw new Error(e);
-        res.send(e);
+        res.send(e.toString());
       });
   };
 }

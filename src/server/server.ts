@@ -34,8 +34,6 @@ import * as webpack from 'webpack';
 import * as webpackDevMiddleware from 'webpack-dev-middleware';
 import * as webpackHotMiddleware from 'webpack-hot-middleware';
 
-const webpackDevConfig = require('../../webpack/webpack.dev');
-
 import config from './config';
 
 const app = express();
@@ -51,6 +49,7 @@ app.use('/user', (req, res, next) => {
 app.use(favicon(path.join(__dirname, '../../favicon.ico')));
 
 if (DEV) {
+  const webpackDevConfig = require('../../webpack/webpack.dev');
   let clientStats = null;
   const compile = webpack(webpackDevConfig);
 
@@ -97,11 +96,11 @@ if (DEV) {
   app.use('/src', express.static(path.join(process.cwd(), 'src')));
 
 } else {
+  const webpackProdConfig = require('../../webpack/webpack.prod');
 
   app.use('/statics', express.static(path.join(process.cwd(), 'dist/statics')));
 
-  // const stats = require(path.join(process.cwd(), 'dist/statics', 'webpack-stats.json'));
-  const stats = require(path.resolve('./dist/statics/webpack-stats.json'));
+  const stats = require(path.resolve(`${webpackProdConfig.output.path}/webpack-stats.json`));
 
   app.get('*', (req, res, next) => {
     require('./utils/render').default(stats.statsJson)(req, res, next);
