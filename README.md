@@ -12,8 +12,8 @@ Used:
 
 # Feature
 
-- hot-reload without refresh
-- debug typescript code
+- hot-reload anything in dev-mode
+- easy to debug
 - manage static file
 - just a simple react universal framework implement. Easy to expand.
 
