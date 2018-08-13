@@ -56,7 +56,6 @@ if (DEV) {
   // use webpack in dev enviroment
   app.use(webpackDevMiddleware(compile, {
     publicPath: webpackDevConfig.output.publicPath,
-    logLevel: 'error',
   }));
   app.use(webpackHotMiddleware(compile));
 
@@ -99,11 +98,10 @@ if (DEV) {
   const webpackProdConfig = require('../../webpack/webpack.prod');
 
   app.use('/statics', express.static(path.join(process.cwd(), 'dist/statics')));
-
-  const stats = require(path.resolve(`${webpackProdConfig.output.path}/webpack-stats.json`));
+  const stats = require(require.resolve(`${webpackProdConfig.output.path}/webpack-stats.json`));
 
   app.get('*', (req, res, next) => {
-    require('./utils/render').default(stats.statsJson)(req, res, next);
+    require('./utils/render').default(stats)(req, res, next);
   });
 }
 
