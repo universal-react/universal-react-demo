@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
-const babelOptions = require('./babel_options');
+const babelOptions = require('./babel.config');
 
 const libifyOptions = process.env.NODE_ENV === 'production' ? [{
   loader: require.resolve('./libify.js'),
