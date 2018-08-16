@@ -1,23 +1,4 @@
-/* eslint no-useless-escape: 0, no-console:0  */
-if (process.env.NODE_ENV !== 'production') {
-  const hook = require('css-modules-require-hook');
-  hook({
-    generateScopedName: '[name]-[local]-[hash:base64:5]',
-  });
-  require('asset-require-hook')({
-    extensions: ['jpg', 'png'],
-    name: '[path][name].[ext]',
-    // ${cwd}/src/client/assets/images/pig.jpg
-    publicPath: result => {
-      const cwd = process.cwd();
-      const publicPath = result.replace(cwd, '/statics'); // TODO get publicPath above
-      return publicPath;
-    }
-  });
-  require('raw-module-require-hook')({
-    extensions: ['html', 'txt']
-  });
-}
+require('./utils/hook')();
 
 import chalk from 'chalk';
 import * as chokidar from 'chokidar';
@@ -59,7 +40,7 @@ if (DEV) {
   }));
   app.use(webpackHotMiddleware(compile));
 
-  // Do "hot-reloading" of express stuff on the server
+  // Do "hot-reloading" on the server
   // Throw away cached modules and re-require next time
   // Ensure there's no important state in there!
   const watcher = chokidar.watch(path.join(process.cwd(), 'src'));
@@ -92,13 +73,13 @@ if (DEV) {
     }
     require('./utils/render').default(clientStats)(req, res, next);
   });
-  app.use('/src', express.static(path.join(process.cwd(), 'src')));
 
+  app.use('/src', express.static(path.join(process.cwd(), 'src')));
 } else {
   const webpackProdConfig = require('../../webpack/webpack.prod');
+  const stats = require(require.resolve(`${webpackProdConfig.output.path}/webpack-stats.json`));
 
   app.use('/statics', express.static(path.join(process.cwd(), 'dist/statics')));
-  const stats = require(require.resolve(`${webpackProdConfig.output.path}/webpack-stats.json`));
 
   app.get('*', (req, res, next) => {
     require('./utils/render').default(stats)(req, res, next);

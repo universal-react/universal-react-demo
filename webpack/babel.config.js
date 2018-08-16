@@ -9,13 +9,11 @@ const babelConfig = {
         ]
       },
       useBuiltIns: "usage",
-      debug: true,
     }],
     "@babel/react"
   ],
   plugins: ["universal-import", "@babel/plugin-syntax-dynamic-import"],
   babelrc: false,
-
 };
 
 module.exports = babelConfig;
