@@ -48,6 +48,7 @@ function render(clientStats: Stats) {
         const chunkNames = flushChunkNames();
         const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
         console.log(js.toString(), styles.toString());
+        console.log(content);
         res.send(
           tmpl({
             content,
@@ -61,7 +62,7 @@ function render(clientStats: Stats) {
       })
       .catch(e => {
         // throw new Error(e);
-        res.send(e.toString());
+        res.send(e.stack);
       });
   };
 }

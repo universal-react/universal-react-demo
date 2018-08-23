@@ -24,7 +24,8 @@ const UniversalHome = universal(universalImport({
   path: () => path.join(__dirname, './container/home'),
   resolve: () => require.resolveWeak('./container/home'),
   load: () => Promise.all([
-    import('./container/home'),
+    import(
+      /* webpackChunkName: 'container/home' */ './container/home'),
     importCss('container/home')
   ]).then(proms => proms[0])
 }));
@@ -34,7 +35,8 @@ const UniversalProfile = universal(universalImport({
   path: () => path.join(__dirname, './container/profile'),
   resolve: () => require.resolveWeak('./container/profile'),
   load: () => Promise.all([
-    import('./container/profile'),
+    import(
+      /* webpackChunkName: 'container/profile' */ './container/profile'),
   ]).then(proms => proms[0])
 }));
 
