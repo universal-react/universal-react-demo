@@ -5,10 +5,13 @@ declare module '*.css' {
   const classNames: IClassNames;
   export = classNames;
 }
+
 declare module '*.jpg' {
   const src: any;
-  export = src;
+  export default src;
 }
+
+declare module '*.html';
 
 declare const __REDUX_DEVTOOLS_EXTENSION_COMPOSE__: any;
 

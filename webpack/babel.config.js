@@ -12,7 +12,10 @@ const babelConfig = {
     }],
     "@babel/react"
   ],
-  plugins: ["universal-import", "@babel/plugin-syntax-dynamic-import"],
+  plugins: [
+    "universal-import",
+    "@babel/plugin-syntax-dynamic-import"
+  ],
   babelrc: false,
 };
 

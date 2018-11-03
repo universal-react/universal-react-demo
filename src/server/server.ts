@@ -1,19 +1,19 @@
 require('./utils/hook')();
 
 import chalk from 'chalk';
-import * as chokidar from 'chokidar';
-import * as express from 'express';
-import * as http from 'http';
-import * as path from 'path';
+import chokidar from 'chokidar';
+import express from 'express';
+import http from 'http';
+import path from 'path';
 
 // express middleware
-import * as bodyParser from 'body-parser';
-import * as favicon from 'serve-favicon';
+import bodyParser from 'body-parser';
+import favicon from 'serve-favicon';
 
 // webpack required
-import * as webpack from 'webpack';
-import * as webpackDevMiddleware from 'webpack-dev-middleware';
-import * as webpackHotMiddleware from 'webpack-hot-middleware';
+import webpack from 'webpack';
+import webpackDevMiddleware from 'webpack-dev-middleware';
+import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import config from './config';
 

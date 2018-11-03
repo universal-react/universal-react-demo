@@ -1,3 +1,27 @@
 .red {
   color: red;
 }
+
+.header {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  height: 40px;
+  line-height: 40px;
+  padding: 0 10px;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.button {
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  background: pink;
+  color: #fff;
+  border: 1px solid white;
+  padding: 0 10px;
+}

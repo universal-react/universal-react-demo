@@ -1,4 +1,4 @@
-import * as Action from './action';
+import { THROW_ERR } from './action';
 
 const initialState = {
   message: '',
@@ -7,7 +7,7 @@ const initialState = {
 
 export default (state = initialState, action) =>  {
   switch (action.type) {
-    case Action.THROW_ERR:
+    case THROW_ERR:
       return {
         ...state,
         ...action.payload,

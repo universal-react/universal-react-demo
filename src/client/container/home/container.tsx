@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 import { getUserList, toogleBlankVisible } from './action';
 
-import * as styles from './home.css';
+import styles from './home.css';
 
 export function getInitialData(dispatch) {
   return dispatch(getUserList());
@@ -25,15 +25,15 @@ class Home extends React.Component<any, any> {
 
   render() {
     const { list, blankVisible, dispatch } = this.props;
-    const userListDOM = list.map((v, i) => <span key={i}>name: {v.name}</span>);
+    const userListDOM = list.map((v, i) => <span key={i}>peopleName: {v.name}</span>);
 
     return (
       <div className={styles.red}>
-      <span>Hello</span>
+      <header className={styles.header}>universal-react</header>
       <div>
           {userListDOM}
         </div>
-        <button onClick={this.handleBtnClick}>toggle blank</button>
+        <button className={styles.button} onClick={this.handleBtnClick}>click</button>
         {blankVisible ?
           <div className={styles.blank}>blank</div>
           : null}

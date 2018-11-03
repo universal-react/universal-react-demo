@@ -2,8 +2,8 @@
 const importCss = require('babel-plugin-universal-import/importCss.js');
 const universalImport = require('babel-plugin-universal-import/universalImport.js');
 
-import * as React from 'react';
-import * as path from 'path';
+import React from 'react';
+import path from 'path';
 import universal from 'react-universal-component';
 import AppRoot from './container/root';
 

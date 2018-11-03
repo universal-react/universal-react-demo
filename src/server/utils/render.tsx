@@ -1,6 +1,6 @@
 /* tslint:disable variable-name no-console no-empty */
 import { Request, Response } from 'express';
-import * as React from 'react';
+import React from 'react';
 import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { matchRoutes, renderRoutes } from 'react-router-config';
@@ -47,8 +47,6 @@ function render(clientStats: Stats) {
         const content = render2String({ store, location, context });
         const chunkNames = flushChunkNames();
         const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
-        console.log(js.toString(), styles.toString());
-        console.log(content);
         res.send(
           tmpl({
             content,

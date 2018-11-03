@@ -35,8 +35,8 @@ function tmpl(options: ITmplOptions) {
         <body>
         <div id="app">${content}</div>
         ${isDev ?
-          '<script src="https://cdn.bootcss.com/react/16.2.0/umd/react.development.js"></script><script src="https://cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.development.js"></script>':
-          '<script src="https://cdn.bootcss.com/react/16.2.0/umd/react.production.min.js"></script><script src="https://cdn.bootcss.com/react-dom/16.2.0/umd/react-dom.production.min.js"></script>'
+          '<script src="https://cdn.bootcss.com/react/16.2.0/umd/react.development.js"></script><script src="https://cdn.bootcss.com/react-dom/16.3.0/umd/react-dom.development.js"></script>':
+          '<script src="https://cdn.bootcss.com/react/16.2.0/umd/react.production.min.js"></script><script src="https://cdn.bootcss.com/react-dom/16.3.0/umd/react-dom.production.min.js"></script>'
         }
         ${scripts}
         ${cssHash}
