@@ -1,4 +1,7 @@
-import { TOOGLE_BLANK_VISIBLE, UPDATE_USER_LIST } from './action';
+import { ActionTypes, TOOGLE_BLANK_VISIBLE, UPDATE_USER_LIST } from './action';
+
+const { UPDATE_STORE } = ActionTypes;
+
 const initialState = {
   list: [],
   blankVisible: true,
@@ -6,6 +9,11 @@ const initialState = {
 
 export default (state = initialState, action) =>  {
   switch (action.type) {
+    case UPDATE_STORE:
+      return {
+        ...state,
+        id: 100,
+      };
     case UPDATE_USER_LIST:
       return {
         ...state,

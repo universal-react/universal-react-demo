@@ -1,10 +1,18 @@
 import request from 'xhr-request';
 
+export enum ActionTypes {
+  UPDATE_STORE,
+}
+
 import { THROW_ERR } from '../../components/error/action';
 
 export const TOOGLE_BLANK_VISIBLE = 'TOOGLE_BLANK_VISIBLE';
 
 export const UPDATE_USER_LIST = 'UPDATE_USER_LIST';
+
+export const updateStore = () => (dispatch, getState) => {
+  dispatch({ type: ActionTypes.UPDATE_STORE });
+};
 
 export const toogleBlankVisible = () => (dispatch, getState) => {
   const { blankVisible } = getState().home;
@@ -40,4 +48,8 @@ export const getUserList = () => dispath => {
         }
       });
   });
+};
+
+export const getInitialData = () => dispatch => {
+  dispatch(getUserList());
 };

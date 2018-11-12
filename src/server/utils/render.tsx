@@ -38,7 +38,7 @@ function render(clientStats: Stats) {
       return router.route.component.preload ? router.route.component.preload()
         .then(UniversalComponent =>
           UniversalComponent.getInitialData ?
-          UniversalComponent.getInitialData(dispatch) :
+          dispatch(UniversalComponent.getInitialData()) :
           noop
         ) : noop;
     });

@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getUserList, toogleBlankVisible } from './action';
+import {
+  getInitialData,
+  getUserList,
+  toogleBlankVisible,
+} from './action';
 
 import styles from './home.css';
-
-export function getInitialData(dispatch) {
-  return dispatch(getUserList());
-}
 
 class Home extends React.Component<any, any> {
   constructor(props) {
@@ -15,7 +15,7 @@ class Home extends React.Component<any, any> {
   }
 
   componentDidMount() {
-    getInitialData(this.props.dispatch);
+    this.props.getInitialData();
   }
 
   handleBtnClick = () => {
@@ -49,4 +49,7 @@ const mapState2Props = store => {
   return { ...store.home };
 };
 
-export default connect(mapState2Props)(Home);
+export default connect(mapState2Props, {
+  getUserList,
+  getInitialData,
+})(Home);
