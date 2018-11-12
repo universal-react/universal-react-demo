@@ -32,7 +32,7 @@ function render2String({ store, location, context = {} }) {
 const ssrMiddleware = (stats: Stats): RequestHandler => (req, res, next) => {
   const acceptHeader = req.header('accept');
   if (typeof acceptHeader === 'string' && acceptHeader.indexOf('text/html') > -1) {
-    if (!stats) { return res.send('please wait webpack done...'); }
+    if (!stats) return res.send('please wait webpack done...');
     const store = initialStore();
     const { dispatch } = store;
     const context = {};
