@@ -14,7 +14,9 @@
 		"ter-arrow-parens": [true, "as-needed"],
 		"jsx-no-multiline-js": false,
 		"member-access": [true, "no-public"],
-		"no-var-requires": false
+		"no-var-requires": false,
+		"rules": { "curly": [true, "ignore-same-line"] },
+		"max-line-length": [true, 200]
 	},
 	"rulesDirectory": []
 }

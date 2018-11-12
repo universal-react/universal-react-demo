@@ -15,6 +15,8 @@ import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
+import ssr from './middleware/ssr';
+
 import config from './config';
 
 const app = express();
@@ -31,7 +33,7 @@ app.use(favicon(path.join(__dirname, '../../favicon.ico')));
 
 if (DEV) {
   const webpackDevConfig = require('../../webpack/webpack.dev');
-  let clientStats = null;
+  let clientStats: any = null;
   const compile = webpack(webpackDevConfig);
 
   // use webpack in dev enviroment
@@ -57,6 +59,7 @@ if (DEV) {
 
   compile.plugin('done', stats => {
     clientStats = stats.toJson();
+    app.use(ssr(clientStats));
     Object.keys(require.cache).forEach(id => {
       if (/src[\\|\/]client/.test(id)) {
         // tslint:disable-next-line:no-console
@@ -66,24 +69,24 @@ if (DEV) {
     });
   });
 
-  app.get('*', (req, res, next) => {
-    if (!clientStats) {
-      res.send('please wait webpack done...');
-      return;
-    }
-    require('./utils/render').default(clientStats)(req, res, next);
-  });
-
+  // app.get('*', (req, res, next) => {
+  //   if (!clientStats) {
+  //     res.send('please wait webpack done...');
+  //     return;
+  //   }
+  //   require('./utils/render').default(clientStats)(req, res, next);
+  // });
   app.use('/src', express.static(path.join(process.cwd(), 'src')));
 } else {
   const webpackProdConfig = require('../../webpack/webpack.prod');
   const stats = require(require.resolve(`${webpackProdConfig.output.path}/webpack-stats.json`));
 
   app.use('/statics', express.static(path.join(process.cwd(), 'dist/statics')));
+  app.use(ssr(stats));
 
-  app.get('*', (req, res, next) => {
-    require('./utils/render').default(stats)(req, res, next);
-  });
+  // app.get('*', (req, res, next) => {
+  //   require('./utils/render').default(stats)(req, res, next);
+  // });
 }
 
 const serve = http.createServer(app);

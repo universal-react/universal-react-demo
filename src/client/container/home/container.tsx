@@ -19,17 +19,22 @@ class Home extends React.Component<any, any> {
   }
 
   handleBtnClick = () => {
-    const { dispatch } = this.props;
-    dispatch(toogleBlankVisible());
+    this.props.toogleBlankVisible();
   }
 
   render() {
     const { list, blankVisible, dispatch } = this.props;
-    const userListDOM = list.map((v, i) => <span key={i}>peopleName: {v.name}</span>);
+    const userListDOM = list.map((v, i) =>
+      (
+        <span key={i}>
+          the peopleName: {v.name}
+          <input type="checkbox" />
+        </span>
+      ));
 
     return (
       <div className={styles.red}>
-      <header className={styles.header}>universal-react</header>
+      <header className={styles.header}>__universal--react__replace__</header>
       <div>
           {userListDOM}
         </div>
@@ -42,7 +47,7 @@ class Home extends React.Component<any, any> {
   }
 }
 
-(Home as any).title = 'home page';
+(Home as any).title = 'this is home page';
 (Home as any).getInitialData = getInitialData;
 
 const mapState2Props = store => {
@@ -52,4 +57,5 @@ const mapState2Props = store => {
 export default connect(mapState2Props, {
   getUserList,
   getInitialData,
+  toogleBlankVisible,
 })(Home);
