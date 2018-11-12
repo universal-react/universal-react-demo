@@ -87,7 +87,7 @@ const config = {
       minChunks: Infinity
     }),
   ],
-  devtool: 'source-map'
+  devtool: 'inline-source-map'
 };
 
 module.exports = config;

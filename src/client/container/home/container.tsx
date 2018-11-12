@@ -38,7 +38,7 @@ class Home extends React.Component<any, any> {
       <div>
           {userListDOM}
         </div>
-        <button className={styles.button} onClick={this.handleBtnClick}>click</button>
+        <button className={styles.button} onClick={this.handleBtnClick}>clicks</button>
         {blankVisible ?
           <div className={styles.blank}>blank</div>
           : null}

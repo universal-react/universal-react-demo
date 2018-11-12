@@ -10,18 +10,18 @@ const initialStore = (preloadedState?: any) => {
     const RDEC = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
     const composeEnhancers = (NODE_ENV === 'development' && RDEC) ? RDEC : compose;
     store = createStore(
-      require('./reducer'),
+      require('./reducer').default,
       preloadedState,
       composeEnhancers(applyMiddleware(thunk))
     );
   } else {
-    store = createStore(require('./reducer'), applyMiddleware(thunk));
+    store = createStore(require('./reducer').default, applyMiddleware(thunk));
   }
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('./reducer', () => {
-      const nextRootReducer = require('./reducer');
+      const nextRootReducer = require('./reducer').default;
       store.replaceReducer(nextRootReducer);
     });
   }
