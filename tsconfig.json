@@ -17,7 +17,8 @@
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "keyofStringsOnly": true,
   },
   "include": [
     "./src/**/*.ts",

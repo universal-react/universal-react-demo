@@ -17,9 +17,7 @@ const mkdirp = require('mkdirp');
 const genContent = (resourcePath, content, replacedPath) => {
   const ext = path.extname(resourcePath);
 
-  if (ext === '.css') {
-    return content.replace('exports.locals', 'module.exports');
-  }
+  if (ext === '.css') return content.replace('exports.locals', 'module.exports');
 
   if (content.indexOf('__webpack_public_path__') !== -1) {
     jsTokens.lastIndex = 0;
