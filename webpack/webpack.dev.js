@@ -9,10 +9,12 @@ module.exports =
     plugins: [
       new webpack.HotModuleReplacementPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.NamedModulesPlugin(),
       new webpack.DefinePlugin({
         'process.env': {
           NODE_ENV: JSON.stringify('development')
         },
       }),
-    ]
+    ],
+    devtool: 'eval-source-map'
   }, commonConfig);

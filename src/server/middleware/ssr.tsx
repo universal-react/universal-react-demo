@@ -31,8 +31,9 @@ function render2String({ store, location, context = {} }) {
 
 const ssrMiddleware = (stats: Stats): RequestHandler => (req, res, next) => {
   const acceptHeader = req.header('accept');
+  const clientStats = stats || res.locals.webpackStats.toJson();
   if (typeof acceptHeader === 'string' && acceptHeader.indexOf('text/html') > -1) {
-    if (!stats) return res.send('please wait webpack done...');
+    if (!clientStats) return res.send('please wait webpack done...');
     const store = initialStore();
     const { dispatch } = store;
     const context = {};
@@ -56,7 +57,7 @@ const ssrMiddleware = (stats: Stats): RequestHandler => (req, res, next) => {
       .then(() => {
         const content = render2String({ store, location, context });
         const chunkNames = flushChunkNames();
-        const { js, styles, cssHash } = flushChunks(stats, { chunkNames });
+        const { js, styles, cssHash } = flushChunks(clientStats, { chunkNames });
         res.send(
           tmpl({
             content,

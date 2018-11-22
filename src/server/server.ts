@@ -39,6 +39,7 @@ if (DEV) {
   // use webpack in dev enviroment
   app.use(webpackDevMiddleware(compile, {
     publicPath: webpackDevConfig.output.publicPath,
+    serverSideRender: true,
   }));
   app.use(webpackHotMiddleware(compile));
 
@@ -59,7 +60,6 @@ if (DEV) {
 
   compile.plugin('done', stats => {
     clientStats = stats.toJson();
-    app.use(ssr(clientStats));
     Object.keys(require.cache).forEach(id => {
       if (/src[\\|\/]client/.test(id)) {
         // tslint:disable-next-line:no-console
@@ -76,6 +76,8 @@ if (DEV) {
   //   }
   //   require('./utils/render').default(clientStats)(req, res, next);
   // });
+  app.use(ssr(clientStats));
+
   app.use('/src', express.static(path.join(process.cwd(), 'src')));
 } else {
   const webpackProdConfig = require('../../webpack/webpack.prod');
