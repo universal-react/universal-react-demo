@@ -1,6 +1,6 @@
-# Universal React
+# Universal React Framework
 
-universal react framework.
+Scaffold for building an universal react applicatioin.
 
 Used:
  - webpack@3
