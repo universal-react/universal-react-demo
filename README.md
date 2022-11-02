@@ -8,7 +8,7 @@ Used:
  - universal-component
  - express
  - typescript, babel
- - `require.extensions` techology
+ - `require.extensions` technology
 
 # Feature
 
